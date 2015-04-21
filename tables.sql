@@ -17,7 +17,7 @@ CREATE TABLE SeSitueA{
 }
 
 CREATE TABLE Groupe{
-    CodeGroupe INTEGER primary_key,
+    CodeGroupe INTEGER primary key,
     CodeCentre foreign key (CodeCentre) references Centre(CodeCentre),
     DateDebutGroupe DATE Not Null,
     DateFinGroupe DATE Not Null,
@@ -54,7 +54,7 @@ CREATE TABLE Adresse_Postale {
 }
 
 CREATE TABLE Activite {
-    CodeAct INTEGER primary_key,
+    CodeAct INTEGER primary key,
     NomAct VARCHAR(10) Not Null,
     CategorieAct CATEGORIE Not Null,
     DescrAct VARCHAR(1000) Not Null,
