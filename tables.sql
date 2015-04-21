@@ -1,36 +1,10 @@
-CREATE TABLE Centre {
-    CodeCentre INTEGER primary key,
-    NomCentre VARCHAR(50) Not Null,
-	NumAdr INTEGER foreign key (NumAdr) references Adresse_Postale(NumAdr) ,
-	RueAdr VARCHAR(50) foreign key (RueAdr) references Adresse_Postale(RueAdr),
-	CodeAdr INTEGER foreign key (CodeAdr) references Adresse_Postale(CodeAdr) ,
-	VilleAdr VARCHAR(50) foreign key (VilleAdr) references Adresse_Postale(VilleAdr),
-	CodePersonne INTEGER foreign key  (CodePersonne) references Responsable(CodePersonnne)
+
+CREATE TABLE Adresse_Postale {
+    NumAdr INTEGER primary key check (NumAdr > 0),
+	RueAdr VARCHAR(50) primary key, 
+	CodeAdr INTEGER primary key check (CodeAdr > 0), 
+	VilleAdr VARCHAR(50) primary key
 }
-
-CREATE TABLE SeSitueA{
-	NumAdr primary key, foreign key (NumAdr) references Adresse_Postale(NumAdr),
-	RueAdr primary key, foreign key (RueAdr) references Adresse_Postale(RueAdr),
-	CodeAdr primary key,  foreign key (CodeAdr) references Adresse_Postale(CodeAdr),
-	VilleAdr primary key,  foreign key (VilleAdr) references Adresse_Postale(VilleAdr),
-	CodeCentre Integer Not Nul, foreign key (CodeCentre) references Centre(CodeCentre)
-}
-
-CREATE TABLE Groupe{
-    CodeGroupe INTEGER primary key,
-    CodeCentre foreign key (CodeCentre) references Centre(CodeCentre),
-    DateDebutGroupe DATE Not Null,
-    DateFinGroupe DATE Not Null,
-    NomNiveau NIVEAU Not Null,
-}
-
-CREATE TYPE Niveau AS ENUM (‘debutant’, ‘confirme’, ‘expert’)
-
-CREATE TABLE EstDansGroupe{
-    CodePersonne Integer primary key, foreign key (CodePersonne) references Personne(CodePersonne),
-    CodeGroupe Integer primary key, foreign key (CodePersonne) references Groupe(CodeGroupe)
-}
-
 
 
 CREATE TABLE Personne{
@@ -46,12 +20,57 @@ CREATE TABLE Personne{
 	VilleAdr foreign key (VilleAdr) references AdressePostale(VilleAdr)
 }
 
-CREATE TABLE Adresse_Postale {
-    NumAdr INTEGER primary key check (NumAdr > 0),
-	RueAdr VARCHAR(50) primary key, 
-	CodeAdr INTEGER primary key check (CodeAdr > 0), 
-	VilleAdr VARCHAR(50) primary key
+CREATE TABLE Responsable {
+    CodePersonne INT PRIMARY KEY FOREIGN KEY REFERENCES Personne,
+    CodeCentre INT FOREIGN KEY REFERENCES Centre
 }
+
+CREATE TABLE Moniteur {
+    CodePersonne INT PRIMARY KEY FOREIGN KEY REFERENCES Personne,
+    CodeCentre INT FOREIGN KEY REFERENCES Centre
+}
+
+
+CREATE TABLE Centre {
+    CodeCentre INTEGER primary key,
+    NomCentre VARCHAR(50) Not Null,
+	NumAdr INTEGER foreign key (NumAdr) references Adresse_Postale(NumAdr) ,
+	RueAdr VARCHAR(50) foreign key (RueAdr) references Adresse_Postale(RueAdr),
+	CodeAdr INTEGER foreign key (CodeAdr) references Adresse_Postale(CodeAdr) ,
+	VilleAdr VARCHAR(50) foreign key (VilleAdr) references Adresse_Postale(VilleAdr),
+	CodePersonne INTEGER foreign key  (CodePersonne) references Responsable(CodePersonnne)
+}
+
+
+
+CREATE TABLE Groupe{
+    CodeGroupe INTEGER primary key,
+    CodeCentre foreign key (CodeCentre) references Centre(CodeCentre),
+    DateDebutGroupe DATE Not Null,
+    DateFinGroupe DATE Not Null,
+    NomNiveau NIVEAU Not Null,
+}
+
+
+
+CREATE TABLE SeSitueA{
+	NumAdr primary key, foreign key (NumAdr) references Adresse_Postale(NumAdr),
+	RueAdr primary key, foreign key (RueAdr) references Adresse_Postale(RueAdr),
+	CodeAdr primary key,  foreign key (CodeAdr) references Adresse_Postale(CodeAdr),
+	VilleAdr primary key,  foreign key (VilleAdr) references Adresse_Postale(VilleAdr),
+	CodeCentre Integer Not Null, foreign key (CodeCentre) references Centre(CodeCentre)
+}
+
+
+CREATE TYPE Niveau AS ENUM (‘debutant’, ‘confirme’, ‘expert’)
+
+CREATE TABLE EstDansGroupe{
+    CodePersonne Integer primary key, foreign key (CodePersonne) references Personne(CodePersonne),
+    CodeGroupe Integer primary key, foreign key (CodePersonne) references Groupe(CodeGroupe)
+}
+
+
+
 
 CREATE TABLE Activite {
     CodeAct INTEGER primary key,
@@ -110,14 +129,6 @@ CREATE TABLE EstInscritDansCentre {
     CodeCentre INT PRIMARY KEY FOREIGN KEY REFERENCES Centre
 }
 
-CREATE TABLE Responsable {
-    CodePersonne INT PRIMARY KEY FOREIGN KEY REFERENCES Personne,
-    CodeCentre INT FOREIGN KEY REFERENCES Centre
-}
 
-CREATE TABLE Moniteur {
-    CodePersonne INT PRIMARY KEY FOREIGN KEY REFERENCES Personne,
-    CodeCentre INT FOREIGN KEY REFERENCES Centre
-}
 
 	
