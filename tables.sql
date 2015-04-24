@@ -1,8 +1,9 @@
 CREATE TABLE Adresse_Postale(
-       NumAdr INTEGER primary key check (NumAdr > 0),
-       RueAdr VARCHAR(50) primary key, 
-       CodeAdr INTEGER primary key check (CodeAdr > 0), 
-       VilleAdr VARCHAR(50) primary key
+       NumAdr INTEGER check (NumAdr > 0),
+       RueAdr VARCHAR(50), 
+       CodeAdr INTEGER check (CodeAdr > 0), 
+       VilleAdr VARCHAR(50),
+       primary key (NumAdr,RueAdr,CodeAdr,VilleAdr)
 )
 
 
