@@ -55,19 +55,21 @@ CREATE TABLE Groupe(
 
 
 CREATE TABLE SeSitueA(
-	NumAdr primary key, foreign key (NumAdr) references Adresse_Postale(NumAdr),
-	RueAdr primary key, foreign key (RueAdr) references Adresse_Postale(RueAdr),
-	CodeAdr primary key,  foreign key (CodeAdr) references Adresse_Postale(CodeAdr),
-	VilleAdr primary key,  foreign key (VilleAdr) references Adresse_Postale(VilleAdr),
-	CodeCentre Integer Not Null, foreign key (CodeCentre) references Centre(CodeCentre)
+	NumAdr INTEGER, foreign key (NumAdr) references Adresse_Postale(NumAdr),
+	RueAdr VARCHAR(50), foreign key (RueAdr) references Adresse_Postale(RueAdr),
+	CodeAdr INTEGER,  foreign key (CodeAdr) references Adresse_Postale(CodeAdr),
+	VilleAdr VARCHAR(50),  foreign key (VilleAdr) references Adresse_Postale(VilleAdr),
+	CodeCentre Integer Not Null, foreign key (CodeCentre) references Centre(CodeCentre),
+	primary key(NumAdr, RueAdr, CodeAdr, VilleAdr)
 )
 
 
 
 
 CREATE TABLE EstDansGroupe(
-    CodePersonne Integer primary key, foreign key (CodePersonne) references Personne(CodePersonne),
-    CodeGroupe Integer primary key, foreign key (CodePersonne) references Groupe(CodeGroupe)
+    CodePersonne Integer , foreign key (CodePersonne) references Personne(CodePersonne),
+    CodeGroupe Integer , foreign key (CodePersonne) references Groupe(CodeGroupe),
+    primary key(CodePersonne, CodeGroupe)
 )
 
 
@@ -86,40 +88,45 @@ CREATE TABLE Activite (
 
 
 CREATE TABLE Gere (
-    CodePersonne primary key, foreign key (CodePersonne)  references Personne (CodePersonne),
-    CodeAct primary key, foreign key (CodeAct) references Activite (CodeAct),
-    NbMaxStagMoniteur INTEGER Not Null
+    CodePersonne INT, foreign key (CodePersonne)  references Personne (CodePersonne),
+    CodeAct INT, foreign key (CodeAct) references Activite (CodeAct),
+    NbMaxStagMoniteur INTEGER Not Null,
+    primary key (CodePersonne, CodeAct)
 )
 
 CREATE TABLE Necessite (
-    CodeAct primary key, foreign key (CodeAct)  references Activite (CodeAct),
-    NumMateriel primary key, foreign key (NumMateriel) references Materiel (NumMateriel),
-    CodeCentre primary key, foreign key (CodeCentre) references Centre (CodeCentre),
-    QuantiteNecessaire INTEGER Not Null
+    CodeAct INT, foreign key (CodeAct)  references Activite (CodeAct),
+    NumMateriel INT, foreign key (NumMateriel) references Materiel (NumMateriel),
+    CodeCentre INT, foreign key (CodeCentre) references Centre (CodeCentre),
+    QuantiteNecessaire INTEGER Not Null,
+    primary key(CodeAct, NumMateriel, CodeCentre)
 )
 
 
 CREATE TABLE Materiel (
-    CodeCentre INT PRIMARY KEY, FOREIGN KEY CodeCentre REFERENCES Centre(CodeCentre),
-    NumMateriel INT PRIMARY KEY,
+    CodeCentre INT, FOREIGN KEY CodeCentre REFERENCES Centre(CodeCentre),
+    NumMateriel INT,
     TypeMateriel VARCHAR(255),
     MarqueMateriel VARCHAR(255),
     ModeleMateriel VARCHAR(255),
     QuantiteMateriel INT,
-    NomNiveau NIVEAU Not Null
+    NomNiveau NIVEAU Not Null,
+    PRIMARY KEY (CodeCentre, NumMateriel)
 )
 
 CREATE TABLE Seance (
-    CodeGroupe INT PRIMARY KEY FOREIGN KEY REFERENCES Groupe,
-    NumSeance INT PRIMARY KEY,
+    CodeGroupe INT FOREIGN KEY REFERENCES Groupe,
+    NumSeance INT,
     DateSeance DATE,
     HeureDebutSeance INT,
-    Duree INT
+    Duree INT,
+    PRIMARY KEY(CodeGroupe, NumSeance)
 )
 
 CREATE TABLE EstEncadreePar (
-    CodePersonne INT PRIMARY KEY FOREIGN KEY REFERENCES Personne,
-    NumSeance INT PRIMARY KEY FOREIGN KEY REFERENCES Seance
+    CodePersonne INT FOREIGN KEY REFERENCES Personne,
+    NumSeance INT FOREIGN KEY REFERENCES Seance,
+    PRIMARY KEY (CodePersonne, NumSeance)
 )
 
 CREATE TABLE Stagiaire (
@@ -127,7 +134,8 @@ CREATE TABLE Stagiaire (
 )
 
 CREATE TABLE EstInscritDansCentre (
-    CodePersonne INT PRIMARY KEY FOREIGN KEY REFERENCES Personne,
-    CodeCentre INT PRIMARY KEY FOREIGN KEY REFERENCES Centre
+    CodePersonne INT FOREIGN KEY REFERENCES Personne,
+    CodeCentre INT FOREIGN KEY REFERENCES Centre,
+    PRIMARY KEY (CodePersonne,CodeCentre)
 )
 ;
