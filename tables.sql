@@ -21,9 +21,7 @@ CREATE TABLE Personne(
     foreign key (NumAdr, RueAdr, CodeAdr,VilleAdr) references Adresse_Postale(NumAdr, RueAdr, CodeAdr,VilleAdr)
 );
 
-CREATE TABLE Responsable (
-    CodePersonne INTEGER PRIMARY KEY, FOREIGN KEY (CodePersonne) REFERENCES Personne(CodePersonne)
-);
+
 
 
 CREATE TABLE Centre (
@@ -33,8 +31,12 @@ CREATE TABLE Centre (
     RueAdr VARCHAR(50),
     CodeAdr INTEGER,
     VilleAdr VARCHAR(50),
-    CodePersonne INTEGER, foreign key  (CodePersonne) references Responsable(CodePersonne),
     foreign key (NumAdr, RueAdr, CodeAdr,VilleAdr) references Adresse_Postale(NumAdr, RueAdr, CodeAdr,VilleAdr)
+);
+
+CREATE TABLE Responsable (
+    CodePersonne INTEGER PRIMARY KEY, FOREIGN KEY (CodePersonne) REFERENCES Personne(CodePersonne),
+    CodeCentre INT, FOREIGN KEY (CodeCentre) REFERENCES Centre(CodeCentre)
 );
 
 CREATE TABLE Moniteur (
@@ -43,11 +45,11 @@ CREATE TABLE Moniteur (
 );
 
 
-ALTER TABLE Responsable
-ADD CodeCentre INT;
+--ALTER TABLE Responsable
+--ADD CodeCentre INT;
 
-ALTER TABLE Responsable
-ADD FOREIGN KEY (CodeCentre) REFERENCES Centre(CodeCentre);
+--ALTER TABLE Responsable
+--ADD FOREIGN KEY (CodeCentre) REFERENCES Centre(CodeCentre);
 
 CREATE TABLE Niveau(
        niv VARCHAR(10) primary key check(niv IN ('debutant', 'confirme', 'expert') )
