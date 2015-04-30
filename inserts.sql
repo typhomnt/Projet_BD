@@ -678,21 +678,6 @@ Values (5, 'planche a voile');
 
 -- Seance
 
--- INSERT INTO Groupe
--- Values (1,1,1,to_date('2015-07-01', 'yyyy-mm-dd'),to_date('2015-07-08', 'yyyy-mm-dd'),3,10,'debutant');
-
--- INSERT INTO Groupe
--- Values (2,2,1,to_date('2015-07-01', 'yyyy-mm-dd'),to_date('2015-07-16', 'yyyy-mm-dd'),2,12,'confirme');
-
--- INSERT INTO Groupe
--- Values (3,3,2,to_date('2015-07-05', 'yyyy-mm-dd'),to_date('2015-07-18', 'yyyy-mm-dd'),2,25,'expert');
-
--- INSERT INTO Groupe
--- Values (4,1,3,to_date('2015-07-02', 'yyyy-mm-dd'),to_date('2015-07-11', 'yyyy-mm-dd'),4,8,'debutant');
-
--- INSERT INTO Groupe
--- Values (5,2,4,to_date('2015-07-03', 'yyyy-mm-dd'),to_date('2015-07-09', 'yyyy-mm-dd'),3,9,'confirme');
-
 INSERT INTO Seance
 Values (1,1,to_date('2015-07-01', 'yyyy-mm-dd'),14,2);
 
@@ -703,44 +688,47 @@ INSERT INTO Seance
 Values (1,3,to_date('2015-07-01', 'yyyy-mm-dd'),11,2);
 
 INSERT INTO Seance
-Values (2,4,to_date('2015-07-02', 'yyyy-mm-dd'),9,5);
+Values (2,1,to_date('2015-07-02', 'yyyy-mm-dd'),9,5);
 
 INSERT INTO Seance
-Values (2,5,to_date('2015-07-02', 'yyyy-mm-dd'),16,3);
+Values (2,2,to_date('2015-07-02', 'yyyy-mm-dd'),16,3);
 
 INSERT INTO Seance
-Values (2,6,to_date('2015-07-10', 'yyyy-mm-dd'),6,2);
+Values (2,3,to_date('2015-07-10', 'yyyy-mm-dd'),6,2);
 
 INSERT INTO Seance
-Values (3,7,to_date('2015-07-10', 'yyyy-mm-dd'),7,2);
+Values (3,1,to_date('2015-07-10', 'yyyy-mm-dd'),7,2);
 
 INSERT INTO Seance
-Values (3,8,to_date('2015-07-12', 'yyyy-mm-dd'),8,3);
+Values (3,2,to_date('2015-07-12', 'yyyy-mm-dd'),8,3);
 
 INSERT INTO Seance
-Values (3,9,to_date('2015-07-14', 'yyyy-mm-dd'),10,4);
+Values (3,3,to_date('2015-07-14', 'yyyy-mm-dd'),10,4);
 
 INSERT INTO Seance
-Values (4,10,to_date('2015-07-04', 'yyyy-mm-dd'),18,2);
+Values (4,1,to_date('2015-07-04', 'yyyy-mm-dd'),18,2);
 
 INSERT INTO Seance
-Values (4,11,to_date('2015-07-07', 'yyyy-mm-dd'),20,3);
+Values (4,2,to_date('2015-07-07', 'yyyy-mm-dd'),20,3);
 
 INSERT INTO Seance
-Values (4,12,to_date('2015-07-10', 'yyyy-mm-dd'),22,4);
+Values (4,3,to_date('2015-07-10', 'yyyy-mm-dd'),22,4);
 
 INSERT INTO Seance
-Values (5,13,to_date('2015-07-04', 'yyyy-mm-dd'),9,5);
+Values (5,1,to_date('2015-07-04', 'yyyy-mm-dd'),9,5);
 
 INSERT INTO Seance
-Values (5,14,to_date('2015-07-07', 'yyyy-mm-dd'),18,3);
+Values (5,2,to_date('2015-07-07', 'yyyy-mm-dd'),18,3);
 
 INSERT INTO Seance
-Values (5,15,to_date('2015-07-08', 'yyyy-mm-dd'),17,4);
+Values (5,3,to_date('2015-07-08', 'yyyy-mm-dd'),17,4);
 
 -- Utilise
 
 -- EstEncadreePar
+
+INSERT INTO EstEncadreePar
+Values 
 
 -- Stagiaire
 
