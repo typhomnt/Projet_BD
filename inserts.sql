@@ -440,13 +440,16 @@ values ('air');
 -- Activite
 
 INSERT INTO Activite
-values (1,'Natation','nautique', 'on nage'); 
+values (1,'Natation Sportive','nautique', 'course'); 
 
 INSERT INTO Activite
-values (2,'Natation','montagne', 'on marche');
+values (2,'Natation Synchro','nautique', 'danse');
 
 INSERT INTO Activite
-values (3,'Natation','air', 'on vole');
+values (3,'Parapente','air', 'on vole');
+
+INSERT INTO Activite
+values (4,'Randonnee','air', 'on marche');
 
 -- Groupe
 

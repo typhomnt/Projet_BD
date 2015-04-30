@@ -1,23 +1,23 @@
 CREATE TABLE Adresse_Postale(
        NumAdr INTEGER check (NumAdr > 0),
-       RueAdr VARCHAR(50), 
+       RueAdr VARCHAR(500), 
        CodeAdr INTEGER check (CodeAdr > 0), 
-       VilleAdr VARCHAR(50),
+       VilleAdr VARCHAR(500),
        primary key (NumAdr,RueAdr,CodeAdr,VilleAdr)
 );
 
 
 CREATE TABLE Personne(
     CodePersonne INTEGER primary key,
-    NomPersonne VARCHAR(10) Not Null,
-    PrenomPersonne VARCHAR(10) Not Null,
+    NomPersonne VARCHAR(100) Not Null,
+    PrenomPersonne VARCHAR(100) Not Null,
     NaissancePersonne DATE Not Null,
     TelPersonne INTEGER Not Null,
-    MailPersonne VARCHAR(30) Not Null,
+    MailPersonne VARCHAR(300) Not Null,
     NumAdr INTEGER,
-    RueAdr VARCHAR(50),
+    RueAdr VARCHAR(500),
     CodeAdr INTEGER,
-    VilleAdr VARCHAR(50), 
+    VilleAdr VARCHAR(500), 
     foreign key (NumAdr, RueAdr, CodeAdr,VilleAdr) references Adresse_Postale(NumAdr, RueAdr, CodeAdr,VilleAdr)
 );
 
@@ -26,11 +26,11 @@ CREATE TABLE Personne(
 
 CREATE TABLE Centre (
     CodeCentre INTEGER primary key,
-    NomCentre VARCHAR(50) Not Null,
+    NomCentre VARCHAR(500) Not Null,
     NumAdr INTEGER,
-    RueAdr VARCHAR(50),
+    RueAdr VARCHAR(500),
     CodeAdr INTEGER,
-    VilleAdr VARCHAR(50),
+    VilleAdr VARCHAR(500),
     foreign key (NumAdr, RueAdr, CodeAdr,VilleAdr) references Adresse_Postale(NumAdr, RueAdr, CodeAdr,VilleAdr)
 );
 
@@ -52,19 +52,19 @@ CREATE TABLE Moniteur (
 --ADD FOREIGN KEY (CodeCentre) REFERENCES Centre(CodeCentre);
 
 CREATE TABLE Niveau(
-       niv VARCHAR(10) primary key check(niv IN ('debutant', 'confirme', 'expert') )
+       niv VARCHAR(100) primary key check(niv IN ('debutant', 'confirme', 'expert') )
 );
 
 
 CREATE TABLE Categorie(
-       cat VARCHAR(10) primary key check(cat IN ('nautique', 'montagne', 'air') )
+       cat VARCHAR(100) primary key check(cat IN ('nautique', 'montagne', 'air') )
 );
 
 
 CREATE TABLE Activite (
     CodeAct INTEGER primary key,
-    NomAct VARCHAR(10) Not Null,
-    CategorieAct VARCHAR(10) Not Null,foreign key (CategorieAct) references Categorie(cat),
+    NomAct VARCHAR(100) Not Null,
+    CategorieAct VARCHAR(100) Not Null,foreign key (CategorieAct) references Categorie(cat),
     DescrAct VARCHAR(1000) Not Null
 );
 
@@ -76,16 +76,16 @@ CREATE TABLE Groupe(
     DateFinGroupe DATE Not Null,
     NbMinStagGroupe INTEGER Not Null,
     NbMaxStagGroupe INTEGER Not Null, -- check (NbMaxStagGroupe >= NbMinStagGroupe) en java
-    NomNiveau VARCHAR(10) Not Null,foreign key (NomNiveau) references Niveau(niv)
+    NomNiveau VARCHAR(100) Not Null,foreign key (NomNiveau) references Niveau(niv)
 );
 
 
 
 CREATE TABLE SeSitueA(
 	NumAdr INTEGER,
-	RueAdr VARCHAR(50),
+	RueAdr VARCHAR(500),
 	CodeAdr INTEGER,
-	VilleAdr VARCHAR(50),
+	VilleAdr VARCHAR(500),
 	CodeCentre Integer Not Null, foreign key (CodeCentre) references Centre(CodeCentre),
 	primary key(NumAdr, RueAdr, CodeAdr, VilleAdr),
 	foreign key (NumAdr, RueAdr, CodeAdr,VilleAdr) references Adresse_Postale(NumAdr, RueAdr, CodeAdr,VilleAdr)
@@ -118,7 +118,7 @@ CREATE TABLE Materiel (
     MarqueMateriel VARCHAR(255) Not Null,
     ModeleMateriel VARCHAR(255) Not Null,
     QuantiteMateriel INT Not Null,
-    NomNiveau VARCHAR(10) Not Null,foreign key (NomNiveau) references Niveau(niv),
+    NomNiveau VARCHAR(100) Not Null,foreign key (NomNiveau) references Niveau(niv),
     PRIMARY KEY (CodeCentre, NumMateriel)
 );
 
