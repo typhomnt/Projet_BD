@@ -1,4 +1,4 @@
--- 3) Enregistrement d'un stagiaire à un centre et à une activite
+-- 1) Enregistrement d'un stagiaire à un centre et à une activite
 
 SAVEPOINT
 
