@@ -65,9 +65,7 @@ CREATE TABLE Activite (
     CodeAct INTEGER primary key,
     NomAct VARCHAR(10) Not Null,
     CategorieAct VARCHAR(10) Not Null,foreign key (CategorieAct) references Categorie(cat),
-    DescrAct VARCHAR(1000) Not Null,
-    NbMinStagGroupe INTEGER Not Null,
-    NbMaxStagGroupe INTEGER Not Null -- check (NbMaxStagGroupe >= NbMinStagGroupe) en java
+    DescrAct VARCHAR(1000) Not Null
 );
 
 CREATE TABLE Groupe(
@@ -76,6 +74,8 @@ CREATE TABLE Groupe(
     CodeCentre INTEGER, foreign key (CodeCentre) references Centre(CodeCentre),
     DateDebutGroupe DATE Not Null,
     DateFinGroupe DATE Not Null,
+    NbMinStagGroupe INTEGER Not Null,
+    NbMaxStagGroupe INTEGER Not Null, -- check (NbMaxStagGroupe >= NbMinStagGroupe) en java
     NomNiveau VARCHAR(10) Not Null,foreign key (NomNiveau) references Niveau(niv)
 );
 
@@ -107,33 +107,45 @@ CREATE TABLE Gere (
     primary key (CodePersonne, CodeAct)
 );
 
+CREATE TABLE TypeMateriel (
+    type VARCHAR(255) primary key
+);
+
 CREATE TABLE Materiel (
     CodeCentre INT, FOREIGN KEY (CodeCentre) REFERENCES Centre(CodeCentre),
     NumMateriel INT,
-    TypeMateriel VARCHAR(255),
-    MarqueMateriel VARCHAR(255),
-    ModeleMateriel VARCHAR(255),
-    QuantiteMateriel INT,
+    Type VARCHAR(255) Not Null, foreign key (Type) references TypeMateriel(type),
+    MarqueMateriel VARCHAR(255) Not Null,
+    ModeleMateriel VARCHAR(255) Not Null,
+    QuantiteMateriel INT Not Null,
     NomNiveau VARCHAR(10) Not Null,foreign key (NomNiveau) references Niveau(niv),
     PRIMARY KEY (CodeCentre, NumMateriel)
 );
 
 CREATE TABLE Necessite (
     CodeAct INT, foreign key (CodeAct)  references Activite (CodeAct),
-    NumMateriel INT,
-    CodeCentre INT, foreign key (CodeCentre) references Centre (CodeCentre),
-    QuantiteNecessaire INTEGER Not Null,
-    primary key(CodeAct, NumMateriel, CodeCentre),
-    foreign key (CodeCentre, NumMateriel) references Materiel (CodeCentre, NumMateriel)
+    Type VARCHAR(255) Not Null, foreign key (Type) references TypeMateriel(type),
+    primary key(CodeAct, Type)
 );
 
 CREATE TABLE Seance (
     CodeGroupe INT, FOREIGN KEY (CodeGroupe) REFERENCES Groupe(CodeGroupe),
     NumSeance INT,
-    DateSeance DATE,
-    HeureDebutSeance INT,
-    Duree INT,
+    DateSeance DATE Not Null,
+    HeureDebutSeance INT Not Null,
+    Duree INT Not Null,
     PRIMARY KEY(CodeGroupe, NumSeance)
+);
+
+CREATE TABLE Utilise(
+    CodeGroupe INT,
+    NumSeance INT,
+    CodeCentre INT,
+    NumMateriel INT,
+    QuantiteNecessaire INT Not Null,
+    primary key (CodeGroupe,NumSeance,CodeCentre,NumMateriel),
+    foreign key (CodeGroupe,NumSeance) references Seance(CodeGroupe,NumSeance),
+    foreign key (CodeCentre,NumMateriel) references Materiel(CodeCentre,NumMateriel)
 );
 
 CREATE TABLE EstEncadreePar (
