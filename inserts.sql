@@ -546,7 +546,82 @@ FROM EstDansGroupe;
 
 -- TypeMateriel
 
+INSERT INTO TypeMateriel
+Values ('baton');
+
+INSERT INTO TypeMateriel
+Values ('casque');
+
+INSERT INTO TypeMateriel
+Values ('planche a voile');
+
+INSERT INTO TypeMateriel
+Values ('parapente');
+
 -- Materiel
+
+INSERT INTO Materiel
+Values (1,1,'baton','Decathlon','Kipik',30,'expert');
+
+INSERT INTO Materiel
+Values (1,2,'baton','Carefur','Tonba',50,'debutant');
+
+INSERT INTO Materiel
+Values (1,3,'casque','LeBoHaum','C100',12,'confirme');
+
+INSERT INTO Materiel
+Values (2,1,'baton','Decathlon','Kipik',20,'expert');
+
+INSERT INTO Materiel
+Values (2,2,'planche a voile','Carefur','Tegra',10,'expert');
+
+INSERT INTO Materiel
+Values (2,3,'parapente','Decathlon','Apic',12,'expert');
+
+INSERT INTO Materiel
+Values (3,1,'baton','Aperture','PG',27,'confirme');
+
+INSERT INTO Materiel
+Values (3,2,'planche a voile','Carefur','Maxwell',20,'debutant');
+
+INSERT INTO Materiel
+Values (3,3,'parapente','Decathlon','Apic',22,'expert');
+
+INSERT INTO Materiel
+Values (4,1,'casque','Carefur','e-pic',40,'debutant');
+
+INSERT INTO Materiel
+Values (4,2,'planche a voile','Carefur','Tegra',5,'expert');
+
+INSERT INTO Materiel
+Values (4,3,'baton','Decathlon','Kipik',12,'debutant');
+
+INSERT INTO Materiel
+Values (5,1,'casque','Ubi','soft',42,'confirme');
+
+INSERT INTO Materiel
+Values (5,2,'casque','Carefur','Bob',5,'expert');
+
+INSERT INTO Materiel
+Values (5,3,'baton','Decathlon','Kipik',17,'confirme');
+
+INSERT INTO Materiel
+Values (6,1,'casque','Carefur','e-pic',40,'debutant');
+
+INSERT INTO Materiel
+Values (6,2,'planche a voile','Intl','haswell',5,'expert');
+
+INSERT INTO Materiel
+Values (6,3,'baton','Aperture','PGL',16,'expert');
+
+INSERT INTO Materiel
+Values (7,1,'casque','Carefur','e-pic',30,'debutant');
+
+INSERT INTO Materiel
+Values (7,2,'planche a voile','Intl','SandyB',25,'debutant');
+
+INSERT INTO Materiel
+Values (7,3,'planche a voile','Intl','BroadW',12,'confirme');
 
 -- Necessite
 
