@@ -1,3 +1,4 @@
+-- Adresse_Postale
 
 INSERT INTO Adresse_Postale
 Values (18,'rue des marseillais',13000,'Marseille');
@@ -206,53 +207,7 @@ Values (20,'rue de la physique',38610,'Saint martin d heres');
 INSERT INTO Adresse_Postale
 Values (22,'rue de la physique',38610,'Saint martin d heres');
 
-
-
-
-SELECT *
-FROM Adresse_Postale;
-
-INSERT INTO Categorie
-values ('nautique');
-
-INSERT INTO Categorie
-values ('montagne');
-
-INSERT INTO Categorie
-values ('air');
-
-SELECT *
-FROM Categorie;
-
-INSERT INTO Activite
-values (1,'Natation','nautique', 'on nage'); 
-
-INSERT INTO Activite
-values (2,'Natation','montagne', 'on marche');
-
-INSERT INTO Activite
-values (3,'Natation','air', 'on vole');
-
-
-SELECT * 
-FROM Activite
-
-INSERT INTO Niveau
-values ('debutant');
-
-INSERT INTO Niveau
-values ('confirme');
-
-INSERT INTO Niveau
-values ('expert');
-
-SELECT *
-FROM Niveau;
-
-
-
-
-
+-- Personne
 
 INSERT INTO Personne
 values (1,'quasire','paul',to_date('2000-02-01', 'yyyy-mm-dd'),0665859575,'qp@sql.fr',18,'rue des marseillais',13000,'Marseille');
@@ -381,13 +336,7 @@ values (40,'emaliore','martin',to_date('1978-12-25', 'yyyy-mm-dd'),0610248684,'h
 INSERT INTO Personne
 values (41,'lazertio','pierre',to_date('1979-11-26', 'yyyy-mm-dd'),0644153416,'hibuhuibh@sql.fr',338,'rue de la physique',38610,'Saint martin d heres');
 
-SELECT *
-FROM Personne
-
-
-
-
-
+-- Centre
 
 INSERT INTO Centre
 values(1,'le petit marseillais',30,'rue des marseillaises',13000,'Marseille');
@@ -410,8 +359,7 @@ values(6,'les petits parisiens',99,'rue arc de triomphe',75000,'Paris');
 INSERT INTO Centre
 values(7,'le petit ensimagien',312,'rue des maths',38610,'Saint martin d heres');
 
-
-
+-- Responsable
 
 
 INSERT INTO Responsable
@@ -435,8 +383,7 @@ values (6,6);
 INSERT INTO Responsable
 values (7,7);
 
-SELECT *
-FROM Responsable
+-- Moniteur
 
 INSERT INTO Moniteur
 Values (8,1);
@@ -468,83 +415,40 @@ Values (16,5);
 INSERT INTO Moniteur
 Values (17,4);
 
+-- Niveau
 
+INSERT INTO Niveau
+values ('debutant');
 
-INSERT INTO Stagiaire
-Values (18);
+INSERT INTO Niveau
+values ('confirme');
 
-INSERT INTO Stagiaire
-Values (19);
+INSERT INTO Niveau
+values ('expert');
 
-INSERT INTO Stagiaire
-Values (20);
+-- Categorie
 
-INSERT INTO Stagiaire
-Values (21);
+INSERT INTO Categorie
+values ('nautique');
 
-INSERT INTO Stagiaire
-Values (22);
+INSERT INTO Categorie
+values ('montagne');
 
-INSERT INTO Stagiaire
-Values (23);
+INSERT INTO Categorie
+values ('air');
 
-INSERT INTO Stagiaire
-Values (24);
+-- Activite
 
-INSERT INTO Stagiaire
-Values (25);
+INSERT INTO Activite
+values (1,'Natation','nautique', 'on nage'); 
 
-INSERT INTO Stagiaire
-Values (26);
+INSERT INTO Activite
+values (2,'Natation','montagne', 'on marche');
 
-INSERT INTO Stagiaire
-Values (27);
+INSERT INTO Activite
+values (3,'Natation','air', 'on vole');
 
-INSERT INTO Stagiaire
-Values (28);
-
-INSERT INTO Stagiaire
-Values (29);
-
-INSERT INTO Stagiaire
-Values (30);
-
-INSERT INTO Stagiaire
-Values (31);
-
-INSERT INTO Stagiaire
-Values (32);
-
-INSERT INTO Stagiaire
-Values (33);
-
-INSERT INTO Stagiaire
-Values (34);
-
-INSERT INTO Stagiaire
-Values (35);
-
-INSERT INTO Stagiaire
-Values (36);
-
-INSERT INTO Stagiaire
-Values (37);
-
-INSERT INTO Stagiaire
-Values (38);
-
-INSERT INTO Stagiaire
-Values (39);
-
-INSERT INTO Stagiaire
-Values (40);
-
-
-
-
-
-
-
+-- Groupe
 
 INSERT INTO Groupe
 Values (1,1,1,to_date('2015-07-01', 'yyyy-mm-dd'),to_date('2015-07-08', 'yyyy-mm-dd'),3,10,'debutant');
@@ -561,12 +465,9 @@ Values (4,1,3,to_date('2015-07-02', 'yyyy-mm-dd'),to_date('2015-07-11', 'yyyy-mm
 INSERT INTO Groupe
 Values (5,2,4,to_date('2015-07-03', 'yyyy-mm-dd'),to_date('2015-07-09', 'yyyy-mm-dd'),3,9,'confirme');
 
-SELECT *
-FROM Groupe
+-- SeSitueA
 
-
-
-
+-- EstDansGroupe
 
 INSERT INTO EstDansGroupe
 Values (18,1);
@@ -637,10 +538,95 @@ Values (39,5);
 INSERT INTO EstDansGroupe
 Values (40,5);
 
-
 SELECT *
 FROM EstDansGroupe;
 
+-- Gere
+
+-- TypeMateriel
+
+-- Materiel
+
+-- Necessite
+
+-- Seance
+
+-- Utilise
+
+-- EstEncadreePar
+
+-- Stagiaire
+
+INSERT INTO Stagiaire
+Values (18);
+
+INSERT INTO Stagiaire
+Values (19);
+
+INSERT INTO Stagiaire
+Values (20);
+
+INSERT INTO Stagiaire
+Values (21);
+
+INSERT INTO Stagiaire
+Values (22);
+
+INSERT INTO Stagiaire
+Values (23);
+
+INSERT INTO Stagiaire
+Values (24);
+
+INSERT INTO Stagiaire
+Values (25);
+
+INSERT INTO Stagiaire
+Values (26);
+
+INSERT INTO Stagiaire
+Values (27);
+
+INSERT INTO Stagiaire
+Values (28);
+
+INSERT INTO Stagiaire
+Values (29);
+
+INSERT INTO Stagiaire
+Values (30);
+
+INSERT INTO Stagiaire
+Values (31);
+
+INSERT INTO Stagiaire
+Values (32);
+
+INSERT INTO Stagiaire
+Values (33);
+
+INSERT INTO Stagiaire
+Values (34);
+
+INSERT INTO Stagiaire
+Values (35);
+
+INSERT INTO Stagiaire
+Values (36);
+
+INSERT INTO Stagiaire
+Values (37);
+
+INSERT INTO Stagiaire
+Values (38);
+
+INSERT INTO Stagiaire
+Values (39);
+
+INSERT INTO Stagiaire
+Values (40);
+
+-- EstInscritDansCentre
 
 INSERT INTO EstInscritDansCentre
 Values (18,1);
@@ -722,3 +708,4 @@ Values (39,4);
 
 INSERT INTO EstInscritDansCentre
 Values (40,4);
+
