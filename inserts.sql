@@ -578,13 +578,28 @@ INSERT INTO Gere
 Values (8,3,25);
 
 INSERT INTO Gere
-Values (16,1,7);
+Values (16,4,10);
 
 INSERT INTO Gere
 Values (17,4,15);
 
 INSERT INTO Gere
-Values (10,4,17);
+Values (10,5,17);
+
+INSERT INTO Gere
+Values (8,2,20);
+
+INSERT INTO Gere
+Values (9,2,19);
+
+INSERT INTO Gere
+Values (10,3,25);
+
+INSERT INTO Gere
+Values (11,5,21);
+
+INSERT INTO Gere
+Values (12,4,22);
 
 -- TypeMateriel
 
@@ -786,31 +801,31 @@ INSERT INTO EstEncadreePar
 Values (9,2,3);
 
 INSERT INTO EstEncadreePar
-Values (10,3,);
+Values (10,3,1);
 
 INSERT INTO EstEncadreePar
-Values ();
+Values (10,3,2);
 
 INSERT INTO EstEncadreePar
-Values ();
+Values (10,3,3);
 
 INSERT INTO EstEncadreePar
-Values ();
+Values (11,4,1);
 
 INSERT INTO EstEncadreePar
-Values ();
+Values (11,4,2);
 
 INSERT INTO EstEncadreePar
-Values ();
+Values (11,4,3);
 
 INSERT INTO EstEncadreePar
-Values ();
+Values (12,5,1);
 
 INSERT INTO EstEncadreePar
-Values ();
+Values (17,5,2);
 
 INSERT INTO EstEncadreePar
-Values ();
+Values (12,5,3);
 
 -- Stagiaire
 
