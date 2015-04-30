@@ -463,7 +463,7 @@ INSERT INTO Groupe
 Values (2,2,1,to_date('2015-07-01', 'yyyy-mm-dd'),to_date('2015-07-16', 'yyyy-mm-dd'),2,12,'confirme');
 
 INSERT INTO Groupe
-Values (3,3,2,to_date('2015-07-05', 'yyyy-mm-dd'),to_date('2015-07-18', 'yyyy-mm-dd'),2,25,'expert');
+Values (3,3,2,to_date('2015-07-05', 'yyyy-mm-dd'),to_date('2015-07-18', 'yyyy-mm-dd'),2,8,'expert');
 
 INSERT INTO Groupe
 Values (4,1,3,to_date('2015-07-02', 'yyyy-mm-dd'),to_date('2015-07-11', 'yyyy-mm-dd'),4,8,'debutant');
@@ -578,7 +578,7 @@ INSERT INTO Gere
 Values (8,3,25);
 
 INSERT INTO Gere
-Values (16,4,7);
+Values (16,1,7);
 
 INSERT INTO Gere
 Values (17,4,15);
@@ -728,7 +728,49 @@ Values (5,3,to_date('2015-07-08', 'yyyy-mm-dd'),17,4);
 -- EstEncadreePar
 
 INSERT INTO EstEncadreePar
-Values 
+Values (8,1,1);
+
+INSERT INTO EstEncadreePar
+Values (9,1,2);
+
+INSERT INTO EstEncadreePar
+Values (8,1,3);
+
+INSERT INTO EstEncadreePar
+Values (8,2,1);
+
+INSERT INTO EstEncadreePar
+Values (9,2,2);
+
+INSERT INTO EstEncadreePar
+Values (9,2,3);
+
+INSERT INTO EstEncadreePar
+Values (10,3,);
+
+INSERT INTO EstEncadreePar
+Values ();
+
+INSERT INTO EstEncadreePar
+Values ();
+
+INSERT INTO EstEncadreePar
+Values ();
+
+INSERT INTO EstEncadreePar
+Values ();
+
+INSERT INTO EstEncadreePar
+Values ();
+
+INSERT INTO EstEncadreePar
+Values ();
+
+INSERT INTO EstEncadreePar
+Values ();
+
+INSERT INTO EstEncadreePar
+Values ();
 
 -- Stagiaire
 
