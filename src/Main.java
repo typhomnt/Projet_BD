@@ -31,7 +31,7 @@ public class Main {
 		} catch(SQLException e){
 			i = 9;
 		}
-		while (i != 7) {
+		while (i != 9) {
 			System.out.println("Que souhaitez-vous faire ? : \n" +
 					"1) Enregistrement d'un stagiaire à un centre et à une activité\n" + // RegisterQuery.java
 					"2) Création d'un groupe\n" +
@@ -43,7 +43,6 @@ public class Main {
 					"8) Classement des villes par nombre de stagiaires inscrits\n" +
 					"9) Sortir ?\n");
 			i = lecteur.nextInt();
-			lecteur.close();
 			
 			try {
 			if(i==1){ // Enregistrement d'un stagiaire
@@ -75,6 +74,8 @@ public class Main {
 			}
 
 		} // fin du while
+		
+		lecteur.close();
 
 		try {
 			cnct.close();
@@ -84,5 +85,20 @@ public class Main {
 			e.printStackTrace();
 		}
 	}
+	
+	public static void dumpResultSet(ResultSet rset) throws SQLException {
+		ResultSetMetaData rsetmd = rset.getMetaData();
+		int i = rsetmd.getColumnCount();
+		for (int k=1;k<=i;k++)
+			System.out.print(rsetmd.getColumnName(k) + "\t");
+		System.out.println();
+		while (rset.next()) {
+			for (int j = 1; j <= i; j++) {
+				System.out.print(rset.getString(j) + "\t");
+			}
+			System.out.println();
+		}
+	}
+
 
 }
