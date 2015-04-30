@@ -18,8 +18,6 @@ drop table Gere;
 
 drop table EstDansGroupe;
 
-drop table SeSitueA;
-
 drop table Groupe;
 
 drop table Activite;

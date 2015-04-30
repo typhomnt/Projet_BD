@@ -449,7 +449,7 @@ INSERT INTO Activite
 values (3,'Parapente','air', 'on vole');
 
 INSERT INTO Activite
-values (4,'Randonnee','air', 'on marche');
+values (4,'Randonnee','montagne', 'on marche');
 
 -- Groupe
 
@@ -467,8 +467,6 @@ Values (4,1,3,to_date('2015-07-02', 'yyyy-mm-dd'),to_date('2015-07-11', 'yyyy-mm
 
 INSERT INTO Groupe
 Values (5,2,4,to_date('2015-07-03', 'yyyy-mm-dd'),to_date('2015-07-09', 'yyyy-mm-dd'),3,9,'confirme');
-
--- SeSitueA
 
 -- EstDansGroupe
 
