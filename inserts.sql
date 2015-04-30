@@ -451,6 +451,9 @@ values (3,'Parapente','air', 'on vole');
 INSERT INTO Activite
 values (4,'Randonnee','montagne', 'on marche');
 
+INSERT INTO Activite
+values (5,'bateau','nautique', 'Navigation');
+
 -- Groupe
 
 INSERT INTO Groupe
@@ -624,6 +627,15 @@ INSERT INTO Materiel
 Values (7,3,'planche a voile','Intl','BroadW',12,'confirme');
 
 -- Necessite
+
+INSERT INTO Necessite
+Values (4, 'baton');
+
+INSERT INTO Necessite
+Values (3, 'casque');
+
+INSERT INTO Necessite
+Values (5, 'planche a voile');
 
 -- Seance
 
