@@ -1,3 +1,6 @@
+set pagesize 50000;
+set linesize 32767;
+
 SELECT *
 FROM Adresse_Postale;
 
@@ -24,9 +27,6 @@ FROM Activite;
 
 SELECT *
 FROM Groupe;
-
-SELECT *
-FROM SeSitueA;
 
 SELECT *
 FROM EstDansGroupe;

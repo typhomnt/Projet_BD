@@ -449,7 +449,10 @@ INSERT INTO Activite
 values (3,'Parapente','air', 'on vole');
 
 INSERT INTO Activite
-values (4,'Randonnee','air', 'on marche');
+values (4,'Randonnee','montagne', 'on marche');
+
+INSERT INTO Activite
+values (5,'bateau','nautique', 'Navigation');
 
 -- Groupe
 
@@ -460,15 +463,13 @@ INSERT INTO Groupe
 Values (2,2,1,to_date('2015-07-01', 'yyyy-mm-dd'),to_date('2015-07-16', 'yyyy-mm-dd'),2,12,'confirme');
 
 INSERT INTO Groupe
-Values (3,3,2,to_date('2015-07-05', 'yyyy-mm-dd'),to_date('2015-07-18', 'yyyy-mm-dd'),2,25,'expert');
+Values (3,3,2,to_date('2015-07-05', 'yyyy-mm-dd'),to_date('2015-07-18', 'yyyy-mm-dd'),2,8,'expert');
 
 INSERT INTO Groupe
-Values (4,1,3,to_date('2015-07-02', 'yyyy-mm-dd'),to_date('2015-07-11', 'yyyy-mm-dd'),4,8,'debutant');
+Values (4,5,3,to_date('2015-07-02', 'yyyy-mm-dd'),to_date('2015-07-11', 'yyyy-mm-dd'),4,8,'debutant');
 
 INSERT INTO Groupe
-Values (5,2,4,to_date('2015-07-03', 'yyyy-mm-dd'),to_date('2015-07-09', 'yyyy-mm-dd'),3,9,'confirme');
-
--- SeSitueA
+Values (5,4,4,to_date('2015-07-03', 'yyyy-mm-dd'),to_date('2015-07-09', 'yyyy-mm-dd'),3,9,'confirme');
 
 -- EstDansGroupe
 
@@ -541,22 +542,290 @@ Values (39,5);
 INSERT INTO EstDansGroupe
 Values (40,5);
 
-SELECT *
-FROM EstDansGroupe;
-
 -- Gere
+
+INSERT INTO Gere
+Values (8,1,10);
+
+INSERT INTO Gere
+Values (9,1,15);
+
+INSERT INTO Gere
+Values (11,1,14);
+
+INSERT INTO Gere
+Values (10,2,20);
+
+INSERT INTO Gere
+Values (11,2,17);
+
+INSERT INTO Gere
+Values (12,2,9);
+
+INSERT INTO Gere
+Values (16,2,14);
+
+INSERT INTO Gere
+Values (13,3,10);
+
+INSERT INTO Gere
+Values (14,3,15);
+
+INSERT INTO Gere
+Values (15,3,14);
+
+INSERT INTO Gere
+Values (8,3,25);
+
+INSERT INTO Gere
+Values (16,4,10);
+
+INSERT INTO Gere
+Values (17,4,15);
+
+INSERT INTO Gere
+Values (10,5,17);
+
+INSERT INTO Gere
+Values (8,2,20);
+
+INSERT INTO Gere
+Values (9,2,19);
+
+INSERT INTO Gere
+Values (10,3,25);
+
+INSERT INTO Gere
+Values (11,5,21);
+
+INSERT INTO Gere
+Values (12,4,22);
 
 -- TypeMateriel
 
+INSERT INTO TypeMateriel
+Values ('baton');
+
+INSERT INTO TypeMateriel
+Values ('casque');
+
+INSERT INTO TypeMateriel
+Values ('planche a voile');
+
+INSERT INTO TypeMateriel
+Values ('parapente');
+
 -- Materiel
+
+INSERT INTO Materiel
+Values (1,1,'baton','Decathlon','Kipik',30,'expert');
+
+INSERT INTO Materiel
+Values (1,2,'baton','Carefur','Tonba',50,'debutant');
+
+INSERT INTO Materiel
+Values (1,3,'casque','LeBoHaum','C100',12,'confirme');
+
+INSERT INTO Materiel
+Values (2,4,'casque','LeBoHaum','C100',15,'confirme');
+
+INSERT INTO Materiel
+Values (2,1,'baton','Decathlon','Kipik',20,'expert');
+
+INSERT INTO Materiel
+Values (2,2,'planche a voile','Carefur','Tegra',10,'expert');
+
+INSERT INTO Materiel
+Values (2,3,'parapente','Decathlon','Apic',12,'expert');
+
+INSERT INTO Materiel
+Values (3,1,'baton','Aperture','PG',27,'confirme');
+
+INSERT INTO Materiel
+Values (3,2,'planche a voile','Carefur','Maxwell',20,'debutant');
+
+INSERT INTO Materiel
+Values (3,3,'parapente','Decathlon','Apic',22,'expert');
+
+INSERT INTO Materiel
+Values (4,1,'casque','Carefur','e-pic',40,'debutant');
+
+INSERT INTO Materiel
+Values (4,2,'planche a voile','Carefur','Tegra',13,'expert');
+
+INSERT INTO Materiel
+Values (4,3,'baton','Decathlon','Kipik',12,'debutant');
+
+INSERT INTO Materiel
+Values (5,1,'casque','Ubi','soft',42,'confirme');
+
+INSERT INTO Materiel
+Values (5,2,'casque','Carefur','Bob',50,'expert');
+
+INSERT INTO Materiel
+Values (5,3,'baton','Decathlon','Kipik',17,'confirme');
+
+INSERT INTO Materiel
+Values (6,1,'casque','Carefur','e-pic',40,'debutant');
+
+INSERT INTO Materiel
+Values (6,2,'planche a voile','Intl','haswell',15,'expert');
+
+INSERT INTO Materiel
+Values (6,3,'baton','Aperture','PGL',16,'expert');
+
+INSERT INTO Materiel
+Values (7,1,'casque','Carefur','e-pic',30,'debutant');
+
+INSERT INTO Materiel
+Values (7,2,'planche a voile','Intl','SandyB',25,'debutant');
+
+INSERT INTO Materiel
+Values (7,3,'planche a voile','Intl','BroadW',12,'confirme');
 
 -- Necessite
 
+INSERT INTO Necessite
+Values (4, 'baton');
+
+INSERT INTO Necessite
+Values (3, 'casque');
+
+INSERT INTO Necessite
+Values (5, 'planche a voile');
+
 -- Seance
+
+INSERT INTO Seance
+Values (1,1,to_date('2015-07-01', 'yyyy-mm-dd'),14,2);
+
+INSERT INTO Seance
+Values (1,2,to_date('2015-07-03', 'yyyy-mm-dd'),15,3);
+
+INSERT INTO Seance
+Values (1,3,to_date('2015-07-01', 'yyyy-mm-dd'),11,2);
+
+INSERT INTO Seance
+Values (2,1,to_date('2015-07-02', 'yyyy-mm-dd'),9,5);
+
+INSERT INTO Seance
+Values (2,2,to_date('2015-07-02', 'yyyy-mm-dd'),16,3);
+
+INSERT INTO Seance
+Values (2,3,to_date('2015-07-10', 'yyyy-mm-dd'),6,2);
+
+INSERT INTO Seance
+Values (3,1,to_date('2015-07-10', 'yyyy-mm-dd'),7,2);
+
+INSERT INTO Seance
+Values (3,2,to_date('2015-07-12', 'yyyy-mm-dd'),8,3);
+
+INSERT INTO Seance
+Values (3,3,to_date('2015-07-14', 'yyyy-mm-dd'),10,4);
+
+INSERT INTO Seance
+Values (4,1,to_date('2015-07-04', 'yyyy-mm-dd'),18,2);
+
+INSERT INTO Seance
+Values (4,2,to_date('2015-07-07', 'yyyy-mm-dd'),20,3);
+
+INSERT INTO Seance
+Values (4,3,to_date('2015-07-10', 'yyyy-mm-dd'),22,4);
+
+INSERT INTO Seance
+Values (5,1,to_date('2015-07-04', 'yyyy-mm-dd'),9,5);
+
+INSERT INTO Seance
+Values (5,2,to_date('2015-07-07', 'yyyy-mm-dd'),18,3);
+
+INSERT INTO Seance
+Values (5,3,to_date('2015-07-08', 'yyyy-mm-dd'),17,4);
 
 -- Utilise
 
+INSERT INTO Utilise
+Values (3,1,2,3,10);
+
+INSERT INTO Utilise
+Values (3,2,2,3,10);
+
+INSERT INTO Utilise
+Values (3,3,2,3,10);
+
+INSERT INTO Utilise
+Values (3,1,2,4,10);
+
+INSERT INTO Utilise
+Values (3,2,2,4,10);
+
+INSERT INTO Utilise
+Values (3,3,2,4,10);
+
+INSERT INTO Utilise
+Values (4,1,3,3,10);
+
+INSERT INTO Utilise
+Values (4,2,3,2,10);
+
+INSERT INTO Utilise
+Values (4,3,3,3,10);
+
+INSERT INTO Utilise
+Values (5,1,4,3,10);
+
+INSERT INTO Utilise
+Values (5,2,4,3,10);
+
+INSERT INTO Utilise
+Values (5,3,4,3,10);
+
+
 -- EstEncadreePar
+
+INSERT INTO EstEncadreePar
+Values (8,1,1);
+
+INSERT INTO EstEncadreePar
+Values (9,1,2);
+
+INSERT INTO EstEncadreePar
+Values (8,1,3);
+
+INSERT INTO EstEncadreePar
+Values (8,2,1);
+
+INSERT INTO EstEncadreePar
+Values (9,2,2);
+
+INSERT INTO EstEncadreePar
+Values (9,2,3);
+
+INSERT INTO EstEncadreePar
+Values (10,3,1);
+
+INSERT INTO EstEncadreePar
+Values (10,3,2);
+
+INSERT INTO EstEncadreePar
+Values (10,3,3);
+
+INSERT INTO EstEncadreePar
+Values (11,4,1);
+
+INSERT INTO EstEncadreePar
+Values (11,4,2);
+
+INSERT INTO EstEncadreePar
+Values (11,4,3);
+
+INSERT INTO EstEncadreePar
+Values (12,5,1);
+
+INSERT INTO EstEncadreePar
+Values (17,5,2);
+
+INSERT INTO EstEncadreePar
+Values (12,5,3);
 
 -- Stagiaire
 

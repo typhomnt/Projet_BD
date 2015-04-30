@@ -79,19 +79,6 @@ CREATE TABLE Groupe(
     NomNiveau VARCHAR(100) Not Null,foreign key (NomNiveau) references Niveau(niv)
 );
 
-
-
-CREATE TABLE SeSitueA(
-	NumAdr INTEGER,
-	RueAdr VARCHAR(500),
-	CodeAdr INTEGER,
-	VilleAdr VARCHAR(500),
-	CodeCentre Integer Not Null, foreign key (CodeCentre) references Centre(CodeCentre),
-	primary key(NumAdr, RueAdr, CodeAdr, VilleAdr),
-	foreign key (NumAdr, RueAdr, CodeAdr,VilleAdr) references Adresse_Postale(NumAdr, RueAdr, CodeAdr,VilleAdr)
-);
-
-
 CREATE TABLE EstDansGroupe(
     CodePersonne Integer , foreign key (CodePersonne) references Personne(CodePersonne),
     CodeGroupe Integer , foreign key (CodeGroupe) references Groupe(CodeGroupe),
