@@ -466,10 +466,10 @@ INSERT INTO Groupe
 Values (3,3,2,to_date('2015-07-05', 'yyyy-mm-dd'),to_date('2015-07-18', 'yyyy-mm-dd'),2,25,'expert');
 
 INSERT INTO Groupe
-Values (4,1,3,to_date('2015-07-02', 'yyyy-mm-dd'),to_date('2015-07-11', 'yyyy-mm-dd'),4,8,'debutant');
+Values (4,5,3,to_date('2015-07-02', 'yyyy-mm-dd'),to_date('2015-07-11', 'yyyy-mm-dd'),4,8,'debutant');
 
 INSERT INTO Groupe
-Values (5,2,4,to_date('2015-07-03', 'yyyy-mm-dd'),to_date('2015-07-09', 'yyyy-mm-dd'),3,9,'confirme');
+Values (5,4,4,to_date('2015-07-03', 'yyyy-mm-dd'),to_date('2015-07-09', 'yyyy-mm-dd'),3,9,'confirme');
 
 -- EstDansGroupe
 
@@ -612,6 +612,9 @@ INSERT INTO Materiel
 Values (1,3,'casque','LeBoHaum','C100',12,'confirme');
 
 INSERT INTO Materiel
+Values (2,4,'casque','LeBoHaum','C100',15,'confirme');
+
+INSERT INTO Materiel
 Values (2,1,'baton','Decathlon','Kipik',20,'expert');
 
 INSERT INTO Materiel
@@ -633,7 +636,7 @@ INSERT INTO Materiel
 Values (4,1,'casque','Carefur','e-pic',40,'debutant');
 
 INSERT INTO Materiel
-Values (4,2,'planche a voile','Carefur','Tegra',5,'expert');
+Values (4,2,'planche a voile','Carefur','Tegra',13,'expert');
 
 INSERT INTO Materiel
 Values (4,3,'baton','Decathlon','Kipik',12,'debutant');
@@ -642,7 +645,7 @@ INSERT INTO Materiel
 Values (5,1,'casque','Ubi','soft',42,'confirme');
 
 INSERT INTO Materiel
-Values (5,2,'casque','Carefur','Bob',5,'expert');
+Values (5,2,'casque','Carefur','Bob',50,'expert');
 
 INSERT INTO Materiel
 Values (5,3,'baton','Decathlon','Kipik',17,'confirme');
@@ -651,7 +654,7 @@ INSERT INTO Materiel
 Values (6,1,'casque','Carefur','e-pic',40,'debutant');
 
 INSERT INTO Materiel
-Values (6,2,'planche a voile','Intl','haswell',5,'expert');
+Values (6,2,'planche a voile','Intl','haswell',15,'expert');
 
 INSERT INTO Materiel
 Values (6,3,'baton','Aperture','PGL',16,'expert');
@@ -724,6 +727,43 @@ INSERT INTO Seance
 Values (5,3,to_date('2015-07-08', 'yyyy-mm-dd'),17,4);
 
 -- Utilise
+
+INSERT INTO Utilise
+Values (3,1,2,3,10);
+
+INSERT INTO Utilise
+Values (3,2,2,3,10);
+
+INSERT INTO Utilise
+Values (3,3,2,3,10);
+
+INSERT INTO Utilise
+Values (3,1,2,4,10);
+
+INSERT INTO Utilise
+Values (3,2,2,4,10);
+
+INSERT INTO Utilise
+Values (3,3,2,4,10);
+
+INSERT INTO Utilise
+Values (4,1,3,3,10);
+
+INSERT INTO Utilise
+Values (4,2,3,2,10);
+
+INSERT INTO Utilise
+Values (4,3,3,3,10);
+
+INSERT INTO Utilise
+Values (5,1,4,3,10);
+
+INSERT INTO Utilise
+Values (5,2,4,3,10);
+
+INSERT INTO Utilise
+Values (5,3,4,3,10);
+
 
 -- EstEncadreePar
 
