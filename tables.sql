@@ -151,5 +151,4 @@ CREATE TABLE EstInscritDansCentre (
     CodePersonne INT, FOREIGN KEY (CodePersonne) REFERENCES Personne(CodePersonne),
     CodeCentre INT, FOREIGN KEY (CodeCentre) REFERENCES Centre(CodeCentre),
     PRIMARY KEY (CodePersonne,CodeCentre)
-)
-;
+);
