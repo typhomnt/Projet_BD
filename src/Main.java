@@ -45,7 +45,7 @@ public class Main {
 			i = lecteur.nextInt();
 			
 			try {
-			if(i==1){ // Enregistrement d'un stagiaire
+			if(i==1){ // Enregistrement d'un stagiaire dans un centre
 				RegisterQuery.register(cnct);
 			}
 			if(i==2){ // Creation d'un groupe
