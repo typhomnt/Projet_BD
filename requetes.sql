@@ -36,22 +36,46 @@ SELECT g.DateFinGroupe FROM Groupe g WHERE g.CodeGroupe = CodeGroupe;   --> gFin
 INSERT INTO Seance
 Values (CodeGroupe, NumSeance, DateSeance, HeureDebutSeance, Duree);
 
---on verifie que le materiel est disponible avant de commiter
+SELECT g.CodeCentre FROM Groupe g WHERE g.CodeGroupe = CodeGroupe; --on recupere CodeCentre
 
-SELECT N.NumMateriel
+SELECT distinct N.Type --on recupere le type de materiel requis
 FROM Necessite N, Seance S, Groupe G
 WHERE S.NumSeance = NumSeance and S.CodeGroupe = CodeGroupe and
 G.CodeGroupe = S.CodeGroupe and G.CodeAct = S.CodeAct and N.CodeCentre = G.CodeCentre;
---on stocke l'ID du materiel requis
-SELECT Sum(N.QuantiteNecessaire) as Quantite
-FROM Necessite N, Seance S, Groupe G
-WHERE N.NumMateriel = ID and N.CodeAct = g.CodeAct and N.CodeCentre = g.CodeCentre
-and ( (S.DateSeance >= DateSeance and S.DateSeance < DateSeance+HeureDebutSeance+Duree) 
-      or 
-      (S.DateSeance + S.HeureDebutSeance + S.Duree >= DateSeance and
-      	S.DateSeance + S.HeureDebutSeance + S.Duree < DateSeance+HeureDebutSeance+Duree)
-    );
---pb: ne gere pas si deux seance courtes se suivent mais sont toutes deux dans l'intervalle
+
+--affichage des materiels disponible pour cette activité
+SELECT *
+FROM Materiel M, Groupe g
+where M.CodeCentre = g.CodeCentre and M.Type = type;  
+--> erreur si vide alors que type non null
+
+--l'utilisateur entre la quantité de materiel requis et le NumMateriel=ID
+INSERT INTO Utilise
+Values (CodeGroupe, NumSeance, CodeCentre, NumMateriel, Quantitée);
+--on verifie que le materiel est disponible avant de commiter
+
+--on regarde quel sera le maximum utilisé à un moment entre le debut et la fin de notre activité
+SELECT Max(Quantite)
+FROM
+(
+	--on fait la somme de materiel utilisé a chaque commencement de seance
+	SELECT Dates.MomentTest, Sum(U.QuantiteNecessaire) as Quantite
+	FROM Utilise U, Seance S, Groupe G, 
+	--on cherche a obtenir chaque nouveau commencement de seance entre le debut et la fin de notre seance
+	(SELECT (S.DateSeance + HeureDebutSeance) as MomentTest
+	    FROM Utilise U, Seance S, Groupe G
+	        WHERE U.NumMateriel = ID and U.CodeCentre = g.CodeCentre and
+		    U.CodeGroupe = G.CodeGroupe and U.NumSeance = S.NumSeance and
+    		    S.DateSeance + S.HeureDebutSeance < DateSeance+HeureDebutSeance+Duree and
+    		    S.DateSeance + S.HeureDebutSeance >= DateSeance+HeureDebutSeance
+	       ) as Dates
+	WHERE U.NumMateriel = ID and U.CodeCentre = g.CodeCentre
+	and U.CodeGroupe = G.CodeGroupe and U.NumSeance = S.NumSeance
+	and S.DateSeance+S.HeureDebutSeance IN Dates.MomentTest
+	GROUP BY Dates.MomentTest
+);
+ --on cherche tout les horaires de debuts de seance dans l'intervalle de notre séance
+
 
 SELECT M.QuantiteMateriel
 FROM Materiel M, Groupe G
