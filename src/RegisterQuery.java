@@ -174,6 +174,7 @@ public class RegisterQuery {
 			String nomAct;
 			String catAct;
 			String descrAct;
+			Integer codeGroupe;
 			try {
 				// Ici on regarde si le stagiaire entré existe déjà dans la table stagiaire ou non
 				stmt = c.prepareStatement("SELECT s.CodePersonne FROM Stagiaire s WHERE s.CodePersonne = ?");
@@ -227,6 +228,23 @@ public class RegisterQuery {
 						rset = stmt.executeQuery();
 					}
 				}
+				//Enregistrement dans un groupe 
+				System.out.println("Entrez le numero du groupe auquel vous voulez inscrire le stagiaire :");
+				
+				codeGroupe = sc.nextInt();
+				stmt = c.prepareStatement("SELECT g.codeGroupe FROM Groupe g WHERE g.CodeGroupe = ? AND g.CodeAct = ?");
+				stmt.setInt(1, codeGroupe);
+				stmt.setInt(2, codeA);
+				rset.close();
+				rset = stmt.executeQuery();
+				if(!rset.next()){
+					sc.close();
+					throw new SQLException("Le groupe ne pratique pas l'activité désirée");
+				}
+				stmt = c.prepareStatement("INSERT INTO EstDansGroupe VALUES(?,?)");
+				stmt.setInt(1, codeStag);
+				stmt.setInt(2, codeGroupe);
+				rset = stmt.executeQuery();
 				rset.close();
 				stmt.close();
 				sc.close();

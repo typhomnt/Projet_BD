@@ -34,7 +34,6 @@ public class GestionGroupe {
 			dateDebGroupe = sc.nextLine();
 			System.out.println("Entrez le numero de fin de groupe");
 			dateFinGroupe = sc.nextLine();
-			sc.nextLine();
 			System.out.println("Entrez le nombre minimal de stagiaire dans le groupe");
 			nbMinStGpr = sc.nextInt();
 			sc.nextLine();
@@ -77,6 +76,50 @@ public class GestionGroupe {
 	}
 	
 	public static void suppression(Connection c) throws SQLException {
+		//On fait un SavePoint en cas d'exception
+		Savepoint sp = c.setSavepoint();
+		System.out.println("Enregistrement d'un stagiaire à une activité");
+		PreparedStatement stmt;
+		ResultSet rset;
+		Scanner sc = new Scanner(System.in);
+		Integer codeGroupe;
+		try{
+			System.out.println("Suppression d'un groupe");
+			System.out.println("Entrez le numero du groupe à supprimer");
+			codeGroupe = sc.nextInt();
+			sc.nextLine();
+			stmt = c.prepareStatement("DELETE FROM EstEncadreePar e WHERE e.CodeGroupe = ?");
+			stmt.setInt(1, codeGroupe);
+			rset = stmt.executeQuery();
+			stmt.close();
+			rset.close();
+			stmt = c.prepareStatement("DELETE FROM Seance s WHERE s.CodeGroupe = ?");
+			stmt.setInt(1, codeGroupe);
+			rset = stmt.executeQuery();
+			stmt.close();
+			rset.close();
+			stmt = c.prepareStatement("DELETE FROM utilise u WHERE u.CodeGroupe = ?");
+			stmt.setInt(1, codeGroupe);
+			rset = stmt.executeQuery();
+			stmt.close();
+			rset.close();
+			stmt = c.prepareStatement("DELETE FROM EstDansGroupe e WHERE e.CodeGroupe = ?");
+			stmt.setInt(1, codeGroupe);
+			rset = stmt.executeQuery();
+			stmt.close();
+			rset.close();
+			stmt = c.prepareStatement("DELETE FROM Groupe g WHERE g.CodeGroupe = ?");
+			stmt.setInt(1, codeGroupe);
+			rset = stmt.executeQuery();
+			stmt.close();
+			rset.close();
+			sc.close();
+			c.commit();
+		} 
+		catch (SQLException e) {
+			c.rollback(sp);
+			e.printStackTrace();
+		}	
 		
 	}
 }
