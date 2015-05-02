@@ -85,6 +85,11 @@ WHERE M.CodeCentre = G.CodeCentre and M.NumMateriel = ID;
 
 COMMIT
 
+-- 4) Visualisation des séances planifiées
+
+SELECT s.*
+FROM groupe g, seance s
+WHERE g.CodeGroupe = s.CodeGroupe;
 
 -- 6) Pour chaque activite, classement des centres en fonction 
 --    du nombre d'inscrits dans l'annee

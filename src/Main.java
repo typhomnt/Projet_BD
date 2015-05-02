@@ -3,8 +3,8 @@ import java.util.Scanner;
 
 public class Main {
 	
-	static String id = "garcia1";
-	static String pwd = "garcia1";
+	static String id = "ghorreso";
+	static String pwd = "ghorreso";
 	static String url = "jdbc:oracle:thin:@ensioracle1.imag.fr:1521:ensioracle1";
 	static Connection cnct;
 
@@ -58,7 +58,7 @@ public class Main {
 				// TODO
 			}
 			if(i==5){ // Visualisation des seances planifiees
-				// TODO
+				VisualSeance.visual(cnct);
 			}
 			if(i==6){ // Gestion du materiel
 				// TODO
