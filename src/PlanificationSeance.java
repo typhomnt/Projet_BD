@@ -32,13 +32,15 @@ public class PlanificationSeance {
 				rset = stmt.executeQuery();
 				// Tant que le numéro de groupe est invalide
 			} while (!rset.next());
-			stmt = c.prepareStatement("SELECT Count(distinct edg.CodePersonne) as Participants"
-					+ "FROM EstDansGroupe edg" + "WHERE edg.CodeGroupe = ?");
+			stmt.close();
+			stmt = c.prepareStatement("SELECT COUNT(DISTINCT edg.CodePersonne) "
+					+ "FROM EstDansGroupe edg WHERE edg.CodeGroupe = ?");
 			stmt.setInt(1, CodeGroupe);
 			rset = stmt.executeQuery();
 			rset.next();
 			int participants = rset.getInt(1);
 
+			stmt.close();
 			stmt = c.prepareStatement("SELECT g.NbMinStagGroupe FROM Groupe g WHERE g.CodeGroupe = ?");
 			stmt.setInt(1, CodeGroupe);
 			rset = stmt.executeQuery();
@@ -51,11 +53,18 @@ public class PlanificationSeance {
 						"Il n'y a pas assez de participants dans ce groupe");
 			}
 
-			stmt = c.prepareStatement("SELECT g.DateDebutGroupe g.DateFinGroupe FROM Groupe g WHERE g.CodeGroupe = ?");
+			stmt.close();
+			stmt = c.prepareStatement("SELECT g.DateDebutGroupe FROM Groupe g WHERE g.CodeGroupe = ?");
 			stmt.setInt(1, CodeGroupe);
 			rset = stmt.executeQuery();
 			rset.next();
 			Date DebutG = rset.getDate(1);
+
+			stmt.close();
+			stmt = c.prepareStatement("SELECT g.DateFinGroupe FROM Groupe g WHERE g.CodeGroupe = ?");
+			stmt.setInt(1, CodeGroupe);
+			rset = stmt.executeQuery();
+			rset.next();
 			Date FinG = rset.getDate(1);
 
 			System.out.println("Entrez l'année de début (yyyy): ");
