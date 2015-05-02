@@ -901,83 +901,76 @@ Values (40);
 -- EstInscritDansCentre
 
 INSERT INTO EstInscritDansCentre
-Values (18,1,'2015-07-02','2015-08-02');
+Values (18,1,to_date('2015-07-02','yyyy-mm-dd'),to_date('2015-08-02','yyyy-mm-dd'));
 
 INSERT INTO EstInscritDansCentre
-Values (19,1,'2015-07-02','2015-08-02');
+Values (19,1,to_date('2015-07-02','yyyy-mm-dd'),to_date('2015-08-02','yyyy-mm-dd'));
 
 INSERT INTO EstInscritDansCentre
-Values (20,1,'2015-07-02','2015-08-02');
+Values (20,1,to_date('2015-07-02','yyyy-mm-dd'),to_date('2015-08-02','yyyy-mm-dd'));
 
 INSERT INTO EstInscritDansCentre
-Values (21,1,'2015-07-02','2015-08-02');
+Values (21,1,to_date('2015-07-02','yyyy-mm-dd'),to_date('2015-08-02','yyyy-mm-dd'));
 
 INSERT INTO EstInscritDansCentre
-Values (22,1,'2015-07-02','2015-08-02');
+Values (22,1,to_date('2015-07-02','yyyy-mm-dd'),to_date('2015-08-02','yyyy-mm-dd'),);
 
 INSERT INTO EstInscritDansCentre
-Values (23,1,'2015-07-02','2015-08-02');
+Values (23,1,to_date('2015-07-02','yyyy-mm-dd'),to_date('2015-08-02','yyyy-mm-dd'));
 
 INSERT INTO EstInscritDansCentre
-Values (24,1,'2015-07-02','2015-08-02');
+Values (24,1,to_date('2015-07-02','yyyy-mm-dd'),to_date('2015-08-02','yyyy-mm-dd'));
 
 INSERT INTO EstInscritDansCentre
-Values (25,1,'2015-07-02','2015-08-02');
+Values (25,1,to_date('2015-07-02','yyyy-mm-dd'),to_date('2015-08-02','yyyy-mm-dd'));
 
 INSERT INTO EstInscritDansCentre
-Values (26,1,'2015-07-02','2015-08-02');
+Values (26,1,to_date('2015-07-02','yyyy-mm-dd'),to_date('2015-08-02','yyyy-mm-dd'));
 
 INSERT INTO EstInscritDansCentre
-Values (27,1,'2015-07-02','2015-08-02');
+Values (27,1,to_date('2015-07-02','yyyy-mm-dd'),to_date('2015-08-02','yyyy-mm-dd'));
 
 INSERT INTO EstInscritDansCentre
-Values (28,1,'2015-07-02','2015-08-02');
+Values (28,2,to_date('2015-07-02','yyyy-mm-dd'),to_date('2015-08-02','yyyy-mm-dd'));
 
 INSERT INTO EstInscritDansCentre
-Values (29,1,'2015-07-02','2015-08-02');
+Values (29,2,to_date('2015-07-02','yyyy-mm-dd'),to_date('2015-08-02','yyyy-mm-dd'));
 
 INSERT INTO EstInscritDansCentre
-Values (29,2,'2015-07-02','2015-08-02');
+Values (30,2,to_date('2015-07-02','yyyy-mm-dd'),to_date('2015-08-02','yyyy-mm-dd'));
 
 INSERT INTO EstInscritDansCentre
-Values (29,3,'2015-07-02','2015-08-02');
+Values (31,3,to_date('2015-07-02','yyyy-mm-dd'),to_date('2015-08-02','yyyy-mm-dd'));
 
 INSERT INTO EstInscritDansCentre
-Values (30,2,'2015-07-02','2015-08-02');
+Values (32,1,to_date('2015-07-02','yyyy-mm-dd'),to_date('2015-08-02','yyyy-mm-dd'));
 
 INSERT INTO EstInscritDansCentre
-Values (31,2,'2015-07-02','2015-08-02');
+Values (33,3,to_date('2015-07-02','yyyy-mm-dd'),to_date('2015-08-02','yyyy-mm-dd'));
 
 INSERT INTO EstInscritDansCentre
-Values (32,2,'2015-07-02','2015-08-02');
+Values (34,4,to_date('2015-07-02','yyyy-mm-dd'),to_date('2015-08-02','yyyy-mm-dd'));
 
 INSERT INTO EstInscritDansCentre
-Values (33,3,'2015-07-02','2015-08-02');
+Values (35,1,to_date('2015-07-02','yyyy-mm-dd'),to_date('2015-08-02','yyyy-mm-dd'));
 
 INSERT INTO EstInscritDansCentre
-Values (33,4,'2015-07-02','2015-08-02');
+Values (36,4,to_date('2015-07-02','yyyy-mm-dd'),to_date('2015-08-02','yyyy-mm-dd'));
 
 INSERT INTO EstInscritDansCentre
-Values (33,5,'2015-07-02','2015-08-02');
+Values (37,3,to_date('2015-07-02','yyyy-mm-dd'),to_date('2015-08-02','yyyy-mm-dd'));
 
 INSERT INTO EstInscritDansCentre
-Values (34,3,'2015-07-02','2015-08-02');
+Values (38,2,to_date('2015-07-02','yyyy-mm-dd'),to_date('2015-08-02','yyyy-mm-dd'));
 
 INSERT INTO EstInscritDansCentre
-Values (35,3,'2015-07-02','2015-08-02');
+Values (39,2,to_date('2015-07-02','yyyy-mm-dd'),to_date('2015-08-02','yyyy-mm-dd'));
 
 INSERT INTO EstInscritDansCentre
-Values (36,3,'2015-07-02','2015-08-02');
+Values (40,3,to_date('2015-07-02','yyyy-mm-dd'),to_date('2015-08-02','yyyy-mm-dd'));
 
 INSERT INTO EstInscritDansCentre
-Values (37,3,'2015-07-02','2015-08-02');
+Values (41,2,to_date('2015-07-02','yyyy-mm-dd'),to_date('2015-08-02','yyyy-mm-dd'));
 
 INSERT INTO EstInscritDansCentre
-Values (38,3,'2015-07-02','2015-08-02');
-
-INSERT INTO EstInscritDansCentre
-Values (39,4,'2015-07-02','2015-08-02');
-
-INSERT INTO EstInscritDansCentre
-Values (40,4,'2015-07-02','2015-08-02');
-
+Values (42,1,to_date('2015-07-02','yyyy-mm-dd'),to_date('2015-08-02','yyyy-mm-dd'));
