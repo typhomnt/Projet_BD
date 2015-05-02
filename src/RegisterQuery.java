@@ -39,6 +39,7 @@ public class RegisterQuery {
 				rset.close();
 				rset = stmt.executeQuery();
 				if(rset.next()){
+					sc.close();
 					throw new SQLException("Le statgiaire ne peut etre ni responsable ni moniteur");
 				}
 				else{
@@ -50,7 +51,7 @@ public class RegisterQuery {
 					prenom = sc.nextLine();
 					System.out.println("Entrez la date de naissance du Stagiaire au format yyyy-mm-dd :");
 					dateNaiss = sc.nextLine();
-					System.out.println("Entrez le numero de telephone du Staigiare");
+					System.out.println("Entrez le numero de telephone du Stagiaire");
 					tel = sc.nextInt();
 					sc.nextLine();
 					System.out.println("Entrez l'e-mail du Stagiaire :");
@@ -123,8 +124,10 @@ public class RegisterQuery {
 			//On verifie que datefin > datedeb)
 			Date deb = Date.valueOf(dateDeb);
 			Date fin = Date.valueOf(dateFin);
-			if(deb.after(fin))
+			if(deb.after(fin)){
+				sc.close();
 				throw new SQLException("la date de début est plus grande que la date de fin");
+			}
 			//On verifie que le stagiaire n'est pas déjà dans un centre à cette période ci
 			stmt = c.prepareStatement("SELECT e.* FROM EstInscritDansCentre e WHERE e.CodePersonne = ? AND ((e.Datedeb < to_date(?,'yyyy-mm-dd') AND e.Datefin > to_date(?,'yyyy-mm-dd')) OR (e.Datedeb < to_date(?,'yyyy-mm-dd') AND e.Datefin > to_date(?,'yyyy-mm-dd')) OR (e.Datedeb > to_date(?,'yyyy-mm-dd') AND e.Datefin < to_date(?,'yyyy-mm-dd'))) ");
 			stmt.setInt(1, codeStag);
@@ -136,8 +139,10 @@ public class RegisterQuery {
 			stmt.setString(7, dateFin);
 			rset.close();
 			rset = stmt.executeQuery();
-			if(rset.next())
+			if(rset.next()){
+				sc.close();
 				throw new SQLException("Le stagiaire est déjà inscrit dans un centre à cette période ci");
+			}
 			else{
 				//On insere le stagiaire dans estinscritdanscentre
 				stmt = c.prepareStatement("INSERT INTO EstInscritDansCentre Values (?,?,to_date(?,'yyyy-mm-dd'),to_date(?,'yyyy-mm-dd'))");
@@ -150,12 +155,87 @@ public class RegisterQuery {
 			}
 			rset.close();
 			stmt.close();
+			sc.close();
 			c.commit();
 		} catch (SQLException e) {
 			c.rollback(sp);
 			e.printStackTrace();
 		}
 		
+	}
+	public static void activity(Connection c) throws SQLException {
+		//On fait un SavePoint en cas d'exception
+			Savepoint sp = c.setSavepoint();
+			System.out.println("Enregistrement d'un stagiaire à une activité");
+			PreparedStatement stmt;
+			ResultSet rset;
+			Scanner sc = new Scanner(System.in);
+			Integer codeA;
+			String nomAct;
+			String catAct;
+			String descrAct;
+			try {
+				// Ici on regarde si le stagiaire entré existe déjà dans la table stagiaire ou non
+				stmt = c.prepareStatement("SELECT s.CodePersonne FROM Stagiaire s WHERE s.CodePersonne = ?");
+				System.out.println("Entrez un numéro de stagiaire");
+				Integer codeStag = sc.nextInt();
+				stmt.setInt(1, codeStag);
+				rset = stmt.executeQuery();
+				if(!rset.next()){
+					//On regarde si le code existe dans Personne au quel cas on lève une exception
+					stmt = c.prepareStatement("SELECT p.CodePersonne FROM Personne p WHERE p.CodePersonne = ?");
+					stmt.setInt(1, codeStag);
+					rset.close();
+					rset = stmt.executeQuery();
+					if(rset.next()){
+						sc.close();
+						throw new SQLException("Le numero entré est un numéro de moniteur ou de responsable");
+					}
+					sc.nextLine();
+					//On demande si on veut rajouter le stagiaire dans la base
+					System.out.println("Le stagiaire n'est pas dans la base voulez vous le rejouter [o/n]?");
+					if(sc.nextLine().equals("o"))
+						register(c);
+				}
+				stmt.close();
+				//On verifie que l'activite existe
+				System.out.println("Entrez le numéro d'une activité");
+				stmt = c.prepareStatement("SELECT a.CodeAct FROM Activite a WHERE a.CodeAct = ?");
+				sc.nextLine();
+				codeA = sc.nextInt();
+				sc.nextLine();
+				stmt.setInt(1, codeA);
+				rset.close();
+				rset = stmt.executeQuery();
+				if(!rset.next()){
+					//On demande si on veut créer l'activité
+					System.out.println("l'activité n'existe pas voulez vous la créer [o/n] ?");
+					if(sc.nextLine().equals("o")){
+						System.out.println("Entrez le nom de l'activité :");
+						nomAct = sc.nextLine();
+						System.out.println("Entrez la categorie de l'activité :");
+						catAct = sc.nextLine();
+						System.out.println("Entrez la description de l'activité :");
+						descrAct = sc.nextLine();
+						stmt.close();
+						stmt = c.prepareStatement("INSERT INTO Activite VALUES(?,?,?,?)");
+						stmt.setInt(1, codeA);
+						stmt.setString(2, nomAct);
+						stmt.setString(3, catAct);
+						stmt.setString(4, descrAct);
+						rset.close();
+						rset = stmt.executeQuery();
+					}
+				}
+				rset.close();
+				stmt.close();
+				sc.close();
+				c.commit();
+			} 
+			catch (SQLException e) {
+				c.rollback(sp);
+				e.printStackTrace();
+			}
 	}
 	
 }
