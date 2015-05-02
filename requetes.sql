@@ -91,6 +91,14 @@ SELECT s.*
 FROM groupe g, seance s
 WHERE g.CodeGroupe = s.CodeGroupe;
 
+-- 5) Gestion du materiel : inventaire, ajout et suppression
+
+-- Inventaire du materiel dans chaque centre
+
+select m.*  
+from centre c, materiel m
+where c.CodeCentre = m.CodeCentre;
+
 -- 6) Pour chaque activite, classement des centres en fonction 
 --    du nombre d'inscrits dans l'annee
 
