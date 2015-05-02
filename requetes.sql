@@ -99,6 +99,26 @@ select m.*
 from centre c, materiel m
 where c.CodeCentre = m.CodeCentre;
 
+-- Ajout de materiel dans un centre
+
+select CodeCentre
+from centre;
+
+-- Dans quel centre voulez-vous ajouter du materiel ? Reponse : codecentre = i
+
+select *
+from materiel 
+where codecentre = i;
+
+-- Quel matériel voulez-vous ajouter ? Reponse : nummateriel = j
+-- Quel quantite voulez-vous ajouter ? Reponse : k
+
+update materiel
+	set QuantiteMateriel = QuantiteMateriel + k
+	where codecentre = i AND nummateriel = j;
+
+COMMIT
+
 -- 6) Pour chaque activite, classement des centres en fonction 
 --    du nombre d'inscrits dans l'annee
 
