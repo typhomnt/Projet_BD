@@ -901,83 +901,83 @@ Values (40);
 -- EstInscritDansCentre
 
 INSERT INTO EstInscritDansCentre
-Values (18,1);
+Values (18,1,'2015-07-02','2015-08-02');
 
 INSERT INTO EstInscritDansCentre
-Values (19,1);
+Values (19,1,'2015-07-02','2015-08-02');
 
 INSERT INTO EstInscritDansCentre
-Values (20,1);
+Values (20,1,'2015-07-02','2015-08-02');
 
 INSERT INTO EstInscritDansCentre
-Values (21,1);
+Values (21,1,'2015-07-02','2015-08-02');
 
 INSERT INTO EstInscritDansCentre
-Values (22,1);
+Values (22,1,'2015-07-02','2015-08-02');
 
 INSERT INTO EstInscritDansCentre
-Values (23,1);
+Values (23,1,'2015-07-02','2015-08-02');
 
 INSERT INTO EstInscritDansCentre
-Values (24,1);
+Values (24,1,'2015-07-02','2015-08-02');
 
 INSERT INTO EstInscritDansCentre
-Values (25,1);
+Values (25,1,'2015-07-02','2015-08-02');
 
 INSERT INTO EstInscritDansCentre
-Values (26,1);
+Values (26,1,'2015-07-02','2015-08-02');
 
 INSERT INTO EstInscritDansCentre
-Values (27,1);
+Values (27,1,'2015-07-02','2015-08-02');
 
 INSERT INTO EstInscritDansCentre
-Values (28,1);
+Values (28,1,'2015-07-02','2015-08-02');
 
 INSERT INTO EstInscritDansCentre
-Values (29,1);
+Values (29,1,'2015-07-02','2015-08-02');
 
 INSERT INTO EstInscritDansCentre
-Values (29,2);
+Values (29,2,'2015-07-02','2015-08-02');
 
 INSERT INTO EstInscritDansCentre
-Values (29,3);
+Values (29,3,'2015-07-02','2015-08-02');
 
 INSERT INTO EstInscritDansCentre
-Values (30,2);
+Values (30,2,'2015-07-02','2015-08-02');
 
 INSERT INTO EstInscritDansCentre
-Values (31,2);
+Values (31,2,'2015-07-02','2015-08-02');
 
 INSERT INTO EstInscritDansCentre
-Values (32,2);
+Values (32,2,'2015-07-02','2015-08-02');
 
 INSERT INTO EstInscritDansCentre
-Values (33,3);
+Values (33,3,'2015-07-02','2015-08-02');
 
 INSERT INTO EstInscritDansCentre
-Values (33,4);
+Values (33,4,'2015-07-02','2015-08-02');
 
 INSERT INTO EstInscritDansCentre
-Values (33,5);
+Values (33,5,'2015-07-02','2015-08-02');
 
 INSERT INTO EstInscritDansCentre
-Values (34,3);
+Values (34,3,'2015-07-02','2015-08-02');
 
 INSERT INTO EstInscritDansCentre
-Values (35,3);
+Values (35,3,'2015-07-02','2015-08-02');
 
 INSERT INTO EstInscritDansCentre
-Values (36,3);
+Values (36,3,'2015-07-02','2015-08-02');
 
 INSERT INTO EstInscritDansCentre
-Values (37,3);
+Values (37,3,'2015-07-02','2015-08-02');
 
 INSERT INTO EstInscritDansCentre
-Values (38,3);
+Values (38,3,'2015-07-02','2015-08-02');
 
 INSERT INTO EstInscritDansCentre
-Values (39,4);
+Values (39,4,'2015-07-02','2015-08-02');
 
 INSERT INTO EstInscritDansCentre
-Values (40,4);
+Values (40,4,'2015-07-02','2015-08-02');
 

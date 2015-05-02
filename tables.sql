@@ -149,5 +149,7 @@ CREATE TABLE Stagiaire (
 CREATE TABLE EstInscritDansCentre (
     CodePersonne INT, FOREIGN KEY (CodePersonne) REFERENCES Personne(CodePersonne),
     CodeCentre INT, FOREIGN KEY (CodeCentre) REFERENCES Centre(CodeCentre),
+    Datedeb DATE not null,
+    Datefin DATE not null,
     PRIMARY KEY (CodePersonne,CodeCentre)
 );
