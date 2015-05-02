@@ -16,6 +16,8 @@ public class RegisterQuery {
 		String rueAdr;
 		Integer codeAdr;
 		String villeAdr;
+		String dateDeb;
+		String dateFin;
 		//On fait un SavePoint en cas d'exception
 		Savepoint sp = c.setSavepoint();
 		System.out.println("Enregistrement d'un stagiaire dans un centre");
@@ -66,13 +68,18 @@ public class RegisterQuery {
 					villeAdr = sc.nextLine();
 					stmt.close();
 					//On ajoute son adresse à la table Adresse Postale
-					stmt = c.prepareStatement("INSERT INTO Adresse_Postale VALUES (?,?,?,?)");
-					stmt.setInt(1, numAdr);
-					stmt.setString(2, rueAdr);
-					stmt.setInt(3, codeAdr);
-					stmt.setString(4, villeAdr);
-					rset.close();
-					rset = stmt.executeQuery();
+					try{
+						stmt = c.prepareStatement("INSERT INTO Adresse_Postale VALUES (?,?,?,?)");
+						stmt.setInt(1, numAdr);
+						stmt.setString(2, rueAdr);
+						stmt.setInt(3, codeAdr);
+						stmt.setString(4, villeAdr);
+						rset.close();
+						rset = stmt.executeQuery();
+					} 
+					catch (SQLIntegrityConstraintViolationException e){
+						System.out.println("Adresse deja existante");
+					}
 					stmt.close();
 					System.out.println("Insertion dans addresse reussie");
 					//On l'ajoute dans Personne
@@ -98,6 +105,50 @@ public class RegisterQuery {
 					rset = stmt.executeQuery();
 					System.out.println("Insertion dans stagiaire reussie");
 				}
+			}
+			//Insertion dans un centre 
+			// Ici on regarde si le centre existe
+			stmt = c.prepareStatement("SELECT c.CodeCentre FROM Centre c WHERE c.CodeCentre = ?");
+			System.out.println("Entrez un numéro de centre");
+			Integer codeCentr = sc.nextInt();
+			stmt.setInt(1, codeCentr);
+			rset = stmt.executeQuery();
+			Main.dumpResultSet(rset);
+			if(!rset.next()){
+				
+			}
+			System.out.println("Entrez une date de debut d'inscription au format yyyy-mm-dd:");
+			sc.nextLine();
+			dateDeb = sc.nextLine();
+			System.out.println("Entrez une date de fin d'inscription au format yyyy-mm-dd:");
+			dateFin = sc.nextLine();
+			//On verifie que datefin > datedeb)
+			Date deb = Date.valueOf(dateDeb);
+			Date fin = Date.valueOf(dateFin);
+			if(deb.after(fin))
+				throw new SQLException("la date de début est plus grande que la date de fin");
+			//On verifie que le stagiaire n'est pas déjà dans un centre à cette période ci
+			stmt = c.prepareStatement("SELECT e.* FROM EstInscritDansCentre e WHERE e.CodePersonne = ? AND ((e.Datedeb < to_date(?,'yyyy-mm-dd') AND e.Datefin > to_date(?,'yyyy-mm-dd')) OR (e.Datedeb < to_date(?,'yyyy-mm-dd') AND e.Datefin > to_date(?,'yyyy-mm-dd')) OR (e.Datedeb > to_date(?,'yyyy-mm-dd') AND e.Datefin < to_date(?,'yyyy-mm-dd'))) ");
+			stmt.setInt(1, codeStag);
+			stmt.setString(2, dateDeb);
+			stmt.setString(3, dateDeb);
+			stmt.setString(4, dateFin);
+			stmt.setString(5, dateFin);
+			stmt.setString(6, dateDeb);
+			stmt.setString(7, dateFin);
+			rset.close();
+			rset = stmt.executeQuery();
+			if(rset.next())
+				throw new SQLException("Le stagiaire est déjà inscrit dans un centre à cette période ci");
+			else{
+				//On insere le stagiaire dans estinscritdanscentre
+				stmt = c.prepareStatement("INSERT INTO EstInscritDansCentre Values (?,?,to_date(?,'yyyy-mm-dd'),to_date(?,'yyyy-mm-dd'))");
+				stmt.setInt(1, codeStag);
+				stmt.setInt(2, codeCentr);
+				stmt.setString(3,dateDeb);
+				stmt.setString(4,dateFin);
+				rset.close();
+				rset = stmt.executeQuery();
 			}
 			rset.close();
 			stmt.close();
