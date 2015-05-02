@@ -30,13 +30,12 @@ public class RegisterQuery {
 			Integer codeStag = sc.nextInt();
 			stmt.setInt(1, codeStag);
 			rset = stmt.executeQuery();
-			Main.dumpResultSet(rset);
+			//Main.dumpResultSet(rset);
 			//s'il n'existe pas dans la table stagiaire
 			if(!rset.next()){
 				//On regarde si le code existe dans Personne au quel cas on lève une exception
 				stmt = c.prepareStatement("SELECT p.CodePersonne FROM Personne p WHERE p.CodePersonne = ?");
 				stmt.setInt(1, codeStag);
-				System.out.println(codeStag);
 				rset.close();
 				rset = stmt.executeQuery();
 				if(rset.next()){
@@ -113,7 +112,6 @@ public class RegisterQuery {
 			Integer codeCentr = sc.nextInt();
 			stmt.setInt(1, codeCentr);
 			rset = stmt.executeQuery();
-			Main.dumpResultSet(rset);
 			if(!rset.next()){
 				
 			}
