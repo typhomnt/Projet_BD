@@ -61,7 +61,7 @@ public class Main {
 				// TODO
 			}
 			if(i==5){ // Planification d'une seance pour un groupe
-				// TODO
+			    PlanificationSeance.register(cnct);
 			}
 			if(i==6){ // Visualisation des seances planifiees
 				VisualSeance.visual(cnct);
