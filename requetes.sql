@@ -119,6 +119,33 @@ update materiel
 
 COMMIT
 
+-- Suppression du materiel dans un centre
+
+select CodeCentre
+from centre;
+
+-- Dans quel centre voulez-vous supprimer du materiel ? Reponse : codecentre = i
+
+select *
+from materiel 
+where codecentre = i;
+
+-- Quel materiel voulez-vous supprimer ? Reponse : nummateriel = j
+
+select QuantiteMateriel
+from materiel
+where NumMateriel = j and CodeCentre = i;
+
+select s.DateSeance, s.HeureDebutSeance, s.Duree, u.QuantiteNecessaire
+from seance s, utilise u
+where u.nummateriel = j and u.codecentre = i and u.NumSeance = s.NumSeance and u.CodeGroupe = s.CodeGroupe;
+
+-- Quelle quantité voulez-vous supprimer ? Reponse : quantite = k
+update materiel
+	set QuantiteMateriel = QuantiteMateriel - k
+	where codecentre = i AND nummateriel = j;
+
+COMMIT
 -- 6) Pour chaque activite, classement des centres en fonction 
 --    du nombre d'inscrits dans l'annee
 
