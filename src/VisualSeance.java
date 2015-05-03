@@ -9,9 +9,8 @@ public class VisualSeance {
 		ResultSet rset;
 		try {
 			stmt = c.createStatement();
-			rset = stmt.executeQuery(	"SELECT s.* " +
-										"FROM groupe g, seance s " +
-										"WHERE g.CodeGroupe = s.CodeGroupe");
+			rset = stmt.executeQuery(	"SELECT * " +
+										"FROM seance");
 			Main.dumpResultSet(rset);
 			rset.close();
 			stmt.close();

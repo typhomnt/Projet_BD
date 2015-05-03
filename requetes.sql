@@ -87,17 +87,15 @@ COMMIT
 
 -- 4) Visualisation des séances planifiées
 
-SELECT s.*
-FROM groupe g, seance s
-WHERE g.CodeGroupe = s.CodeGroupe;
+SELECT *
+FROM seance;
 
 -- 5) Gestion du materiel : inventaire, ajout et suppression
 
 -- Inventaire du materiel dans chaque centre
 
-select m.*  
-from centre c, materiel m
-where c.CodeCentre = m.CodeCentre;
+select *  
+from materiel ;
 
 -- Ajout de materiel dans un centre
 

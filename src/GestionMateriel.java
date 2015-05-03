@@ -11,9 +11,8 @@ public class GestionMateriel {
 		ResultSet rset;
 		try {
 			stmt = c.createStatement();
-			rset = stmt.executeQuery(	"SELECT m.* " +
-										"FROM centre c, materiel m " +
-										"WHERE c.CodeCentre = m.CodeCentre");
+			rset = stmt.executeQuery(	"SELECT * " +
+										"FROM materiel");
 			Main.dumpResultSet(rset);
 			rset.close();
 			stmt.close();
