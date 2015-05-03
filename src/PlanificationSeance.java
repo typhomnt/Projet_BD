@@ -189,7 +189,7 @@ public class PlanificationSeance {
 				while (t != -1) {
 					//System.out.println("");
 					//System.out.println("Entrez le code du matériel que vous souhaitez (-1 pour quitter):");
-					Main.graphique.setInfoLab("Entrez le code du matériel que vous souhaitez (-1 pour quitter):");
+					Main.graphique.setInfoLab("Entrez le code du matériel que vous souhaitez (-1 pour terminer):");
 					//int code = sc.nextInt();
 					int code = Main.graphique.setVarInfoInt();
 					t=code;
@@ -216,17 +216,17 @@ public class PlanificationSeance {
 						"	SELECT Dates.MomentTest, Sum(U.QuantiteNecessaire) as Quantite "+
 						"	FROM Utilise U, Seance S, Groupe G, "+
 						//	--on cherche a obtenir chaque nouveau commencement de seance entre le debut et la fin de notre seance
-						"	(SELECT (DATE_ADD(S.DateSeance, INTERVAL (TO_CHAR(S.HeureDebutSeance ,'9999')) HOUR)) as MomentTest "+
+						"	(SELECT (S.DateSeance+S.HeureDebutSeance/24) as MomentTest "+
 						"	    FROM Utilise U, Seance S, Groupe G "+
 						"	        WHERE U.NumMateriel = ? and U.CodeCentre = g.CodeCentre and "+
 						"			g.CodeCentre = ? and "+
 						"		    U.CodeGroupe = G.CodeGroupe and U.NumSeance = S.NumSeance and "+
-						"   		    (DATE_ADD(S.DateSeance, INTERVAL (TO_CHAR(S.HeureDebutSeance,'9999')) HOUR)) < (TO_DATE(?,'DD/MM/YYYY:HH24:MI:SS')) and "+
-						"   		    (DATE_ADD(S.DateSeance, INTERVAL (TO_CHAR(S.HeureDebutSeance,'9999')) HOUR)) >= (TO_DATE(?,'DD/MM/YYYY:HH24:MI:SS')) "+
+						"   		    (S.DateSeance+S.HeureDebutSeance/24) < (TO_DATE(?,'DD/MM/YYYY:HH24:MI:SS')) and "+
+						"   		    (S.DateSeance+S.HeureDebutSeance/24) >= (TO_DATE(?,'DD/MM/YYYY:HH24:MI:SS')) "+
 						"	       ) Dates "+
 						"	WHERE U.NumMateriel = ? and U.CodeCentre = g.CodeCentre and g.CodeCentre = ? "+
 						"	and U.CodeGroupe = G.CodeGroupe and U.NumSeance = S.NumSeance "+
-						"	and (DATE_ADD(S.DateSeance, INTERVAL (TO_CHAR(S.HeureDebutSeance ,'9999')) HOUR)) IN Dates.MomentTest "+
+						"	and (S.DateSeance+S.HeureDebutSeance/24) IN Dates.MomentTest "+
 						"	GROUP BY Dates.MomentTest) Q");
 //						stmt.setInt(1, heure);
 						stmt.setInt(1, code);
@@ -251,8 +251,8 @@ public class PlanificationSeance {
 						int maxUtil = rset.getInt(1);
 						
 						//On cherche maintenant la quantité dont dispose le centre
-						stmt = c.prepareStatement("SELECT M.QuantiteMateriel"+
-								"FROM Materiel M, Groupe G"+
+						stmt = c.prepareStatement("SELECT M.QuantiteMateriel "+
+								"FROM Materiel M, Groupe G "+
 								"WHERE M.CodeCentre = G.CodeCentre and G.CodeCentre = ? and M.NumMateriel = ?");
 						stmt.setInt(1,CodeCentre);
 						stmt.setInt(2, code);
