@@ -35,7 +35,7 @@
 \newpage
 \section{Analyse du problème}
 
-L'analyse du texte proposé par l'énoncé nous a amené aux dépendances fonctionnelles et contraintes suivantes.\\
+L'analyse du texte proposé par l'énoncé nous a amené aux dépendances fonctionnelles et contraintes suivantes. Les contraintes en gras sont les contraintes pas gérées dans le modèle entité/association et/ou dans le schéma relationnel.\\
 
 \begin{small}
 \begin{tabular}{|c|}
@@ -66,27 +66,27 @@ CodeMoniteur, CodeAct -> NbMaxStagiairesMoniteur\\ \\
 \\Contraintes de valeurs\\ \\
 \hline
 
-\\NbMinStagiairesGroupe > 0 \\
+\\\textbf{NbMinStagiairesGroupe > 0} \\
 
-NbMaxStagiairesGroupe > 0\\
+\textbf{NbMaxStagiairesGroupe > 0}\\
 
-NbMaxStagiairesMoniteur > 0\\
+\textbf{NbMaxStagiairesMoniteur > 0}\\
 
-CategorieAct IN ('nautique', 'montagne', 'air')\\
+\textbf{CategorieAct IN ('nautique', 'montagne', 'air')}\\
 
-DateDebGroupe < DateSeance < DateFinGroupe\\
+\textbf{DateDebGroupe < DateSeance < DateFinGroupe}\\
 
-DateSeance à l'heure HeureDebut + Durée < DateFinGroupe à 24h00\\
+\textbf{DateSeance à l'heure HeureDebut + Durée < DateFinGroupe à 24h00}\\
 
-Durée > 0\\
+\textbf{Durée > 0}\\
 
-NiveauGroupe IN ('debutant, 'confirme' , 'expert')\\
+\textbf{NiveauGroupe IN ('debutant, 'confirme' , 'expert')}\\
 
-NiveauMat IN ('debutant', 'confirme', 'expert'), QuantiteMat >= 0\\
+\textbf{NiveauMat IN ('debutant', 'confirme', 'expert'), QuantiteMat >= 0}\\
 
-NbMaxStagiairesMoniteur > 0\\
+\textbf{NbMaxStagiairesMoniteur > 0}\\
 
-Activite(TypeMat) peut être NULL\\ \\
+\textbf{Activite(TypeMat) peut être NULL}\\ \\
 
 \hline
 \\Contraintes de multiplicité\\ \\
@@ -117,7 +117,7 @@ Un groupe correspond à un niveau de pratique de l’activité (débutant, confi
 
 Il faut savoir quel(s) matériel(s) sont utilisés par chaque séance des groupes et en quelle quantité.\\
 
-La quantité de matériel de la séance varie selon la date, l'heure de début, l'heure de fin de la séance\\ \\
+\textbf{La quantité de matériel de la séance varie selon la date, l'heure de début, l'heure de fin de la séance}\\ \\
 
 \hline
 
@@ -329,6 +329,57 @@ update materiel
 
 \subsubsection{Suppression du matériel dans un centre}
 
+On affiche la liste des \textbf{CodeCentre}. On demande alors le centre dans lequel on veut supprimer du matériel. Ensuite, on affiche la liste des matériels du centre. On demande alors quel matériel on veut supprimer. On cherche
+alors la quantité totale de matériel \textbf{QuantiteUtilisee} utilisée pendant toutes les séances ayant commencées avant l'instant présent et se finissant après. On calcule également la quantité totale maximale utilisée simultanément après l'instant présent \textbf{maxUtil}. On demande alors quelle quantité du matériel on veut supprimer, quantité qui doit être inférieure à \textbf{QuantiteMateriel-max(QuantiteUtilisee,maxUtil)}, où \textbf{QuantiteMateriel} représente la quantité du matériel donné dans le centre.
+
+On a utilisé les requêtes SQL suivantes :
+
+\begin{small}
+\begin{verbatim}
+select CodeCentre
+from centre;
+
+-- Dans quel centre voulez-vous supprimer du materiel ? Reponse : codecentre = i
+
+select *
+from materiel 
+where codecentre = i;
+
+-- Quel materiel voulez-vous supprimer ? Reponse : nummateriel = j
+
+select QuantiteMateriel
+from materiel
+where NumMateriel = j and CodeCentre = i;
+
+select s.DateSeance, s.HeureDebutSeance, s.Duree, u.QuantiteNecessaire
+from seance s, utilise u
+where u.nummateriel = j and u.codecentre = i and u.NumSeance = s.NumSeance and u.CodeGroupe = s.CodeGroupe;
+
+SELECT Max(Q.Quantite)
+FROM ( 	--on fait la somme de materiel utilisé a chaque commencement de seance
+     SELECT Dates.MomentTest, Sum(U.QuantiteNecessaire) as Quantite
+     FROM Utilise U, Seance S, Groupe G, 
+     --on cherche a obtenir chaque nouveau commencement de seance apres la date courante
+          (
+	  SELECT (S.DateSeance + S.HeureDebutSeance/24) as MomentTest
+     	  FROM Utilise U, Seance S, Groupe G
+     	  WHERE U.NumMateriel = j and U.CodeCentre = g.CodeCentre and 
+     	  g.CodeCentre = i and
+     	  U.CodeGroupe = G.CodeGroupe and U.NumSeance = S.NumSeance and 
+     	  (S.DateSeance + S.HeureDebutSeance/24) >= SYSDATE
+     	  ) Dates
+     WHERE U.NumMateriel = j and U.CodeCentre = g.CodeCentre and g.CodeCentre = i
+     and U.CodeGroupe = G.CodeGroupe and U.NumSeance = S.NumSeance 
+     and (S.DateSeance + S.HeureDebutSeance/24) IN Dates.MomentTest
+     GROUP BY Dates.MomentTest
+     ) Q ;
+
+-- Quelle quantité voulez-vous supprimer ? Reponse : quantite = k
+update materiel
+	set QuantiteMateriel = QuantiteMateriel - k
+	where codecentre = i AND nummateriel = j;
+\end{verbatim}
+\end{small}
 
 \subsection{Pour chaque activité, classement des centres en fonction du nombre d'inscrits}
 
