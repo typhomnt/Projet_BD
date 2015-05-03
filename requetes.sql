@@ -138,6 +138,25 @@ select s.DateSeance, s.HeureDebutSeance, s.Duree, u.QuantiteNecessaire
 from seance s, utilise u
 where u.nummateriel = j and u.codecentre = i and u.NumSeance = s.NumSeance and u.CodeGroupe = s.CodeGroupe;
 
+SELECT Max(Q.Quantite)
+FROM ( 	--on fait la somme de materiel utilisé a chaque commencement de seance
+     SELECT Dates.MomentTest, Sum(U.QuantiteNecessaire) as Quantite
+     FROM Utilise U, Seance S, Groupe G, 
+     --on cherche a obtenir chaque nouveau commencement de seance apres la date courante
+          (
+	  SELECT (S.DateSeance + S.HeureDebutSeance/24) as MomentTest
+     	  FROM Utilise U, Seance S, Groupe G
+     	  WHERE U.NumMateriel = j and U.CodeCentre = g.CodeCentre and 
+     	  g.CodeCentre = i and
+     	  U.CodeGroupe = G.CodeGroupe and U.NumSeance = S.NumSeance and 
+     	  (S.DateSeance + S.HeureDebutSeance/24) >= SYSDATE
+     	  ) Dates
+     WHERE U.NumMateriel = j and U.CodeCentre = g.CodeCentre and g.CodeCentre = i
+     and U.CodeGroupe = G.CodeGroupe and U.NumSeance = S.NumSeance 
+     and (S.DateSeance + S.HeureDebutSeance/24) IN Dates.MomentTest
+     GROUP BY Dates.MomentTest
+     ) Q ;
+
 -- Quelle quantité voulez-vous supprimer ? Reponse : quantite = k
 update materiel
 	set QuantiteMateriel = QuantiteMateriel - k
