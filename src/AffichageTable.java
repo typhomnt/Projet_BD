@@ -9,7 +9,7 @@ public class AffichageTable {
 		ResultSet rset;
 		try {
 			stmt = c.createStatement();
-			rset = stmt.executeQuery("SELECT * FROM GROUP");
+			rset = stmt.executeQuery("SELECT * FROM GROUPE");
 			Main.dumpResultSet(rset);
 			rset.close();
 			stmt.close();
