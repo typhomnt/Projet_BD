@@ -272,6 +272,50 @@ CodeAdr,VilleAdr)}
 
 \subsection{Planification d'une séance pour un groupe}
 
+
+C'est une requête SQL assez complexe, car elle nécessite de vérifier la disponibilité du matériel.
+
+On commence d'abord par demander le numéro de groupe aucquel on veut ajouter une séance. On vérifie que ce numéro
+de groupe existe bien. Ensuite on demande un numéro de séance, après avoir demandé une date qui est comparé à la
+période d'existence du groupe. Le numéro de séance ne doit pas déjà exister, sinon il est redemandé.
+
+On insert ensuite la séance crée, elle n'est pas committé mais elle doit exister pour pouvoir créer la relation
+\textbf{Utilise} qui gère l'utilisation de matériel. 
+
+On demande ensuite parmis les matériels compatibles lesquels doivent être utilisées. On regarde ensuite si le nombre requis est
+compatible avec les ressource du centre. Pour cela, on regarde à chaque nouveau début de séance entre le début et la fin de la séance
+créée la somme du matériel voulu utilisé par toutes les activitées, puis on le compare à la quantité disponible dans le centre.
+
+La requête nécessaire est donc:
+
+\begin{small}
+\begin{verbatim}
+SELECT Max(Q.Quantite)
+FROM ( 	--on fait la somme de materiel utilisé a chaque commencement de seance
+     SELECT Dates.MomentTest, Sum(U.QuantiteNecessaire) as Quantite
+     FROM Utilise U, Seance S, Groupe G, 
+     --on cherche a obtenir chaque nouveau commencement de seance entre le debut et la fin de notre seance
+          (
+	  SELECT (S.DateSeance + S.HeureDebutSeance/24) as MomentTest
+     	  FROM Utilise U, Seance S, Groupe G
+     	  WHERE U.NumMateriel = NumMaterielDesire and U.CodeCentre = g.CodeCentre and 
+     	  g.CodeCentre = CodeDuCentreCorrespondantALaSeance and
+     	  U.CodeGroupe = G.CodeGroupe and U.NumSeance = S.NumSeance and 
+     	  (S.DateSeance + S.HeureDebutSeance/24) < (TO_DATE(dateDeFinDeSeance,'DD/MM/YYYY:HH24:MI:SS')) and 
+     	  (S.DateSeance + S.HeureDebutSeance/24) >= (TO_DATE(dateDeDebutDeSeance,'DD/MM/YYYY:HH24:MI:SS'))
+     	  ) Dates
+     WHERE U.NumMateriel = NumMaterielDesire and U.CodeCentre = g.CodeCentre 
+     and g.CodeCentre = CodeDuCentreCorrespondantALaSeance
+     and U.CodeGroupe = G.CodeGroupe and U.NumSeance = S.NumSeance 
+     and (S.DateSeance + S.HeureDebutSeance/24) IN Dates.MomentTest
+     GROUP BY Dates.MomentTest
+     ) Q ;
+\end{verbatim}
+\end{small}
+
+Une fois que l'on s'est assurée que la quantité en stock est suffisante, on ajoute le tuple a la table \textbf{Utilise} et
+on commit.
+
 \subsection{Visualisation des séances planifiées}
 
 C'est une requête SQL qui ne nécessite pas d'interaction de l'utilisateur ou de vérification à l'aide de \emph{JDBC}.
