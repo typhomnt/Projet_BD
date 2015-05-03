@@ -84,6 +84,7 @@ public class GestionGroupe {
 			stmt.close();
 			sc.close();
 			c.commit();
+			Main.graphique.mainMenu();
 		} 
 		catch (SQLException e) {
 			c.rollback(sp);
