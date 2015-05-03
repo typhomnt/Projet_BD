@@ -116,7 +116,7 @@ public class Main {
 			System.out.println();
 		}
 		res += "</pre></html>";
-		//graphique.setReqLab(res);
+		graphique.setReqLab(res);
 	}
 
 
