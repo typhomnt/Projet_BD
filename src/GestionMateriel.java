@@ -1,5 +1,4 @@
 import java.sql.*;
-import java.util.Calendar;
 import java.util.Scanner;
 
 public class GestionMateriel {
@@ -44,6 +43,9 @@ public class GestionMateriel {
 			stmt.setInt(1, centre);
 			rset.close();
 			rset = stmt.executeQuery();
+			if(!rset.next()){
+				throw new SQLException("Le centre entré n'existe pas");
+			}
 			Main.dumpResultSet(rset);
 
 			stmt.close();
@@ -52,11 +54,17 @@ public class GestionMateriel {
 			materiel = sc.nextInt();
 			System.out.println("Quelle quantite voulez-vous ajouter ?");
 			ajoutMat = sc.nextInt();
+			if(ajoutMat < 0){
+				throw new SQLException("Vous devez taper un nombre positif");
+			}
 			stmt.setInt(1, ajoutMat);
 			stmt.setInt(2, centre);
 			stmt.setInt(3, materiel);
 			rset.close();
 			rset = stmt.executeQuery();
+			if(!rset.next()){
+				throw new SQLException("Le matériel entré n'est pas dans le centre");
+			}
 			rset.close();
 			stmt.close();
 			System.out.println("Ajout reussie");
@@ -92,6 +100,9 @@ public class GestionMateriel {
 			stmt.setInt(1, centre);
 			rset.close();
 			rset = stmt.executeQuery();
+			if(!rset.next()){
+				throw new SQLException("Le centre entré n'existe pas");
+			}
 			Main.dumpResultSet(rset);
 			
 			System.out.println("Quel matériel voulez-vous enlever ?");
@@ -103,13 +114,10 @@ public class GestionMateriel {
 			stmt.setInt(2, centre);
 			rset.close();
 			rset = stmt.executeQuery();
-			int quantiteCentre = 0;
-			if (rset.next()) {
-				quantiteCentre = rset.getInt(1);
-			} else {
-				System.out.println("No element retrieved");
+			if(!rset.next()){
+				throw new SQLException("Le matériel entré n'existe pas dans le centre");
 			}
-			Main.dumpResultSet(rset);
+			int quantiteCentre = rset.getInt(1);
 			
 			stmt.close();
 			stmt = c.prepareStatement("SELECT s.DateSeance, s.HeureDebutSeance, s.Duree, u.QuantiteNecessaire FROM seance s, utilise u WHERE u.nummateriel = ? and u.codecentre = ? and u.NumSeance = s.NumSeance and u.CodeGroupe = s.CodeGroupe");
@@ -130,6 +138,39 @@ public class GestionMateriel {
 					quantiteUtilisee += quantiteSeance;
 			}
 			
+			stmt.close();
+			//On cherche la quantité max de ce materiel qu'on utilisera pendant les seances apres la date courante
+			stmt = c.prepareStatement("SELECT Max(Q.Quantite) "+
+			"FROM "+
+			"( "+
+			//	--on fait la somme de materiel utilisé a chaque commencement de seance
+			"	SELECT Dates.MomentTest, Sum(U.QuantiteNecessaire) as Quantite "+
+			"	FROM Utilise U, Seance S, Groupe G, "+
+			//	--on cherche a obtenir chaque nouveau commencement de seance entre le debut et la fin de notre seance
+			"	(SELECT (S.DateSeance+S.HeureDebutSeance/24) as MomentTest "+
+			"	    FROM Utilise U, Seance S, Groupe G "+
+			"	        WHERE U.NumMateriel = ? and U.CodeCentre = g.CodeCentre and "+
+			"			g.CodeCentre = ? and "+
+			"		    U.CodeGroupe = G.CodeGroupe and U.NumSeance = S.NumSeance and "+
+			"   		    (S.DateSeance+S.HeureDebutSeance/24) >= SYSDATE "+
+			"	       ) Dates "+
+			"	WHERE U.NumMateriel = ? and U.CodeCentre = g.CodeCentre and g.CodeCentre = ? "+
+			"	and U.CodeGroupe = G.CodeGroupe and U.NumSeance = S.NumSeance "+
+			"	and (S.DateSeance+S.HeureDebutSeance/24) IN Dates.MomentTest "+
+			"	GROUP BY Dates.MomentTest) Q");
+			stmt.setInt(1, materiel);
+			stmt.setInt(2, centre);
+			stmt.setInt(3, materiel);
+			stmt.setInt(4, centre);
+			rset.close();
+			rset = stmt.executeQuery();
+			int maxUtil = 0;
+			if (rset.next()) {
+				// Si on utilise plus de materiel
+				maxUtil = rset.getInt(1);
+				if (quantiteUtilisee <= maxUtil)
+					quantiteUtilisee = maxUtil;
+			}
 			System.out.println("Quelle quantite, inferieur a " + (quantiteCentre-quantiteUtilisee) + ", voulez-vous supprimer ?");
 			supprMat = sc.nextInt();
 			if (supprMat <= (quantiteCentre-quantiteUtilisee)) {
