@@ -1,3 +1,4 @@
+import java.awt.font.GraphicAttribute;
 import java.sql.*;
 import java.util.Scanner;
 
@@ -7,17 +8,18 @@ public class RegisterQuery {
 		
 		//Ici on va utiliser un scanner pour récupérer les differentes informations
 		Scanner sc = new Scanner(System.in);
-		String nom;
-		String prenom;
-		String dateNaiss;
-		Integer tel;
-		String mail;
-		Integer numAdr;
-		String rueAdr;
-		Integer codeAdr;
-		String villeAdr;
-		String dateDeb;
-		String dateFin;
+		String nom = new String();
+		String prenom = new String();
+		String dateNaiss = new String();
+		Integer tel = 0;
+		String mail = new String();
+		Integer numAdr = 0;
+		String rueAdr = new String();
+		Integer codeAdr = 0;
+		String villeAdr = new String();
+		String dateDeb = new String();
+		String dateFin = new String();
+		Integer codeStag = 0;
 		//On fait un SavePoint en cas d'exception
 		Savepoint sp = c.setSavepoint();
 		System.out.println("Enregistrement d'un stagiaire dans un centre");
@@ -29,7 +31,10 @@ public class RegisterQuery {
 			// Ici on regarde si le stagiaire entré existe déjà dans la table stagiaire ou non
 			stmt = c.prepareStatement("SELECT s.CodePersonne FROM Stagiaire s WHERE s.CodePersonne = ?");
 			System.out.println("Entrez un numéro de stagiaire");
-			Integer codeStag = sc.nextInt();
+			Main.graphique.setInfoLab("Entrez un numéro de stagiaire");
+			//codeStag = sc.nextInt();
+			codeStag = Main.graphique.setVarInfoInt();
+			//System.out.println(codeStag);
 			stmt.setInt(1, codeStag);
 			rset = stmt.executeQuery();
 			//s'il n'existe pas dans la table stagiaire
@@ -45,28 +50,46 @@ public class RegisterQuery {
 				}
 				else{
 					// On va ajouter le stagiaire à la base et on récupère toutes les infos
-					sc.nextLine();
+					//sc.nextLine();
 					System.out.println("Entrez le nom du Stagiaire :");
-					nom = sc.nextLine();
+					Main.graphique.setInfoLab("Entrez le nom du Stagiaire");
+					//nom = sc.nextLine();
+					nom = Main.graphique.setVarInfoStr();
 					System.out.println("Entrez le prenom du Stagiaire :");
-					prenom = sc.nextLine();
+					Main.graphique.setInfoLab("Entrez le prenom du Stagiaire");
+					//prenom = sc.nextLine();
+					prenom = Main.graphique.setVarInfoStr();
 					System.out.println("Entrez la date de naissance du Stagiaire au format yyyy-mm-dd :");
-					dateNaiss = sc.nextLine();
+					Main.graphique.setInfoLab("Entrez la date de naissance du Stagiaire au format yyyy-mm-dd :");
+					//dateNaiss = sc.nextLine();
+					dateNaiss = Main.graphique.setVarInfoStr();
 					System.out.println("Entrez le numero de telephone du Stagiaire");
-					tel = sc.nextInt();
-					sc.nextLine();
+					Main.graphique.setInfoLab("Entrez le numero de telephone du Stagiaire");
+					//tel = sc.nextInt();
+					//sc.nextLine();
+					tel = Main.graphique.setVarInfoInt();
 					System.out.println("Entrez l'e-mail du Stagiaire :");
-					mail = sc.nextLine();
+					Main.graphique.setInfoLab("Entrez l'e-mail du Stagiaire :");
+					//mail = sc.nextLine();
+					mail = Main.graphique.setVarInfoStr();
 					System.out.println("Entrez le numero de rue du Stagiare :");
-					numAdr = sc.nextInt();
-					sc.nextLine();
+					Main.graphique.setInfoLab("Entrez le numero de rue du Stagiare :");
+					//numAdr = sc.nextInt();
+					//sc.nextLine();
+					numAdr = Main.graphique.setVarInfoInt();
 					System.out.println("Entrez le nom de rue du Stagiaire : ");
-					rueAdr = sc.nextLine();
+					Main.graphique.setInfoLab("Entrez le nom de rue du Stagiaire : ");
+					//rueAdr = sc.nextLine();
+					rueAdr = Main.graphique.setVarInfoStr();
 					System.out.println("Entrez l'arrondissement du Stagiaire :");
-					codeAdr = sc.nextInt();
-					sc.nextLine();
+					Main.graphique.setInfoLab("Entrez l'arrondissement du Stagiaire :");
+					//codeAdr = sc.nextInt();
+					//sc.nextLine();
+					codeAdr = Main.graphique.setVarInfoInt();
 					System.out.println("Entrez la ville du Stagiaire :");
-					villeAdr = sc.nextLine();
+					Main.graphique.setInfoLab("Entrez la ville du Stagiaire :");
+					//villeAdr = sc.nextLine();
+					villeAdr = Main.graphique.setVarInfoStr();
 					stmt.close();
 					//On ajoute son adresse à la table Adresse Postale
 					try{
@@ -162,8 +185,8 @@ public class RegisterQuery {
 			}
 			rset.close();
 			stmt.close();
-			sc.close();
 			c.commit();
+			Main.graphique.mainMenu();
 		} catch (SQLException e) {
 			c.rollback(sp);
 			e.printStackTrace();
@@ -188,6 +211,8 @@ public class RegisterQuery {
 			try {
 				// Ici on regarde si le stagiaire entré existe déjà dans la table stagiaire ou non
 				stmt = c.prepareStatement("SELECT s.CodePersonne FROM Stagiaire s WHERE s.CodePersonne = ?");
+				System.out.println("Voici la liste des stagiaires");
+				AffichageTable.affichageStagiaire(c);
 				System.out.println("Entrez un numéro de stagiaire");
 				Integer codeStag = sc.nextInt();
 				stmt.setInt(1, codeStag);
@@ -210,6 +235,8 @@ public class RegisterQuery {
 				}
 				stmt.close();
 				//On verifie que l'activite existe
+				System.out.println("Voici la liste des activités disponibles");
+				AffichageTable.affichageActivite(c);
 				System.out.println("Entrez le numéro d'une activité");
 				stmt = c.prepareStatement("SELECT a.CodeAct FROM Activite a WHERE a.CodeAct = ?");
 				sc.nextLine();
@@ -239,8 +266,9 @@ public class RegisterQuery {
 					}
 				}
 				//Enregistrement dans un groupe 
+				System.out.println("Voici la liste des groupes disponibles");
+				AffichageTable.affichageGroupe(c);
 				System.out.println("Entrez le numero du groupe auquel vous voulez inscrire le stagiaire :");
-				
 				codeGroupe = sc.nextInt();
 				stmt = c.prepareStatement("SELECT g.codeCentre,g.codeGroupe,g.DateDebutGroupe,g.DateFinGroupe FROM Groupe g WHERE g.CodeGroupe = ? AND g.CodeAct = ?");
 				stmt.setInt(1, codeGroupe);
@@ -275,8 +303,8 @@ public class RegisterQuery {
 				rset = stmt.executeQuery();
 				rset.close();
 				stmt.close();
-				sc.close();
 				c.commit();
+				Main.graphique.mainMenu();
 			} 
 			catch (SQLException e) {
 				c.rollback(sp);

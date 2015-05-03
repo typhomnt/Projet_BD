@@ -7,6 +7,7 @@ public class Main {
 	static String pwd = "garcia1";
 	static String url = "jdbc:oracle:thin:@ensioracle1.imag.fr:1521:ensioracle1";
 	static Connection cnct;
+	static Interface graphique;
 
 	public static void main(String args[]) {
 		
@@ -22,8 +23,8 @@ public class Main {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
-		int i = 12;
+		graphique = new Interface();
+		/*int i = 12;
 		Scanner lecteur = new Scanner(System.in);
 		try {
 			if (cnct.isValid(1)) 
@@ -87,28 +88,36 @@ public class Main {
 		} // fin du while
 		
 		lecteur.close();
-
+		 
 		try {
 			cnct.close();
 			System.err.println("Connexion fermee");
 		} catch (SQLException e) {
 			System.err.println("Impossible de fermer la connexion");
 			e.printStackTrace();
-		}
+		}*/
 	}
 	
 	public static void dumpResultSet(ResultSet rset) throws SQLException {
 		ResultSetMetaData rsetmd = rset.getMetaData();
+		String res = new String("<html><pre>");
 		int i = rsetmd.getColumnCount();
-		for (int k=1;k<=i;k++)
+		for (int k=1;k<=i;k++){
 			System.out.print(rsetmd.getColumnName(k) + "\t");
+			res += rsetmd.getColumnName(k) +  "&#9;" ;
+		}
+		res += "\n";
 		System.out.println();
 		while (rset.next()) {
 			for (int j = 1; j <= i; j++) {
 				System.out.print(rset.getString(j) + "\t");
+				res += rset.getString(j) + "&#9;";
 			}
+			res += "\n";
 			System.out.println();
 		}
+		res += "</pre></html>";
+		graphique.setReqLab(res);
 	}
 
 
