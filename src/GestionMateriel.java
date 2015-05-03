@@ -37,9 +37,11 @@ public class GestionMateriel {
 			Main.dumpResultSet(rset);
 			
 			stmt.close();
-			stmt = c.prepareStatement("SELECT * FROM materiel WHERE codecentre = ?");								
-			System.out.println("Dans quel centre voulez-vous ajouter du materiel ?");
-			centre = sc.nextInt();
+			stmt = c.prepareStatement("SELECT * FROM materiel WHERE codecentre = ?");
+			Main.graphique.setInfoLab("Dans quel centre voulez-vous ajouter du materiel ?");
+//			System.out.println("Dans quel centre voulez-vous ajouter du materiel ?");
+//			centre = sc.nextInt();
+			centre = Main.graphique.setVarInfoInt();
 			stmt.setInt(1, centre);
 			rset.close();
 			rset = stmt.executeQuery();
@@ -50,10 +52,14 @@ public class GestionMateriel {
 
 			stmt.close();
 			stmt = c.prepareStatement("UPDATE materiel SET quantitemateriel = quantitemateriel + ? WHERE codecentre = ? and nummateriel = ?");
-			System.out.println("Quel materiel voulez-vous ajouter ?");
-			materiel = sc.nextInt();
-			System.out.println("Quelle quantite voulez-vous ajouter ?");
-			ajoutMat = sc.nextInt();
+			//System.out.println("Quel materiel voulez-vous ajouter ?");
+			Main.graphique.setInfoLab("Quel materiel voulez-vous ajouter ?");
+			//materiel = sc.nextInt();
+			materiel = Main.graphique.setVarInfoInt();
+			//System.out.println("Quelle quantite voulez-vous ajouter ?");
+			Main.graphique.setInfoLab("Quelle quantite voulez-vous ajouter ?");
+			//ajoutMat = sc.nextInt();
+			ajoutMat = Main.graphique.setVarInfoInt();
 			if(ajoutMat < 0){
 				throw new SQLException("Vous devez taper un nombre positif");
 			}
@@ -69,6 +75,7 @@ public class GestionMateriel {
 			stmt.close();
 			System.out.println("Ajout reussie");
 			c.commit();
+			Main.graphique.mainMenu();
 		} catch (SQLException e) {
 			c.rollback(sp);
 			e.printStackTrace();
@@ -94,9 +101,11 @@ public class GestionMateriel {
 			//dateCour.setTime(dateCour.getTime() + 5*3600*1000);
 			//System.out.println("datecour + 5 heures = " + dateCour);
 			stmt.close();
-			stmt = c.prepareStatement("SELECT * FROM materiel WHERE codecentre = ?");								
-			System.out.println("Dans quel centre voulez-vous ajouter du materiel ?");
-			centre = sc.nextInt();
+			stmt = c.prepareStatement("SELECT * FROM materiel WHERE codecentre = ?");
+			Main.graphique.setInfoLab("Dans quel centre voulez-vous ajouter du materiel ?");
+			//System.out.println("Dans quel centre voulez-vous ajouter du materiel ?");
+			//centre = sc.nextInt();
+			centre = Main.graphique.setVarInfoInt();
 			stmt.setInt(1, centre);
 			rset.close();
 			rset = stmt.executeQuery();
@@ -105,9 +114,10 @@ public class GestionMateriel {
 			}
 			Main.dumpResultSet(rset);
 			
-			System.out.println("Quel matériel voulez-vous enlever ?");
-			materiel = sc.nextInt();
-			
+			//System.out.println("Quel matériel voulez-vous enlever ?");
+			Main.graphique.setInfoLab("Quel matériel voulez-vous enlever ?");
+			//materiel = sc.nextInt();
+			materiel = Main.graphique.setVarInfoInt();
 			stmt.close();
 			stmt = c.prepareStatement("SELECT QuantiteMateriel FROM Materiel WHERE NumMateriel = ? AND CodeCentre = ?");
 			stmt.setInt(1, materiel);
@@ -171,8 +181,10 @@ public class GestionMateriel {
 				if (quantiteUtilisee <= maxUtil)
 					quantiteUtilisee = maxUtil;
 			}
-			System.out.println("Quelle quantite, inferieur a " + (quantiteCentre-quantiteUtilisee) + ", voulez-vous supprimer ?");
-			supprMat = sc.nextInt();
+			//System.out.println("Quelle quantite, inferieur a " + (quantiteCentre-quantiteUtilisee) + ", voulez-vous supprimer ?");
+			Main.graphique.setInfoLab("Quelle quantite, inferieur a " + (quantiteCentre-quantiteUtilisee) + ", voulez-vous supprimer ?");
+			//supprMat = sc.nextInt();
+			supprMat = Main.graphique.setVarInfoInt();
 			if (supprMat <= (quantiteCentre-quantiteUtilisee)) {
 				stmt.close();
 				stmt = c.prepareStatement("UPDATE materiel SET quantitemateriel = quantitemateriel - ? WHERE codecentre = ? and nummateriel = ?");
@@ -183,6 +195,7 @@ public class GestionMateriel {
 				rset.close();
 				stmt.close();
 				System.out.println("Suppression reussie");
+				Main.graphique.mainMenu();
 				c.commit();
 			} else {
 				System.out.println("Quantite trop grande");
