@@ -1,5 +1,5 @@
 import java.sql.*;
-import java.util.Scanner;
+
 
 public class AffichageTable {
 	public static void affichageGroupe(Connection c) throws SQLException {

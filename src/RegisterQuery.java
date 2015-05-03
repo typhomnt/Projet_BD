@@ -32,7 +32,6 @@ public class RegisterQuery {
 			Integer codeStag = sc.nextInt();
 			stmt.setInt(1, codeStag);
 			rset = stmt.executeQuery();
-			//Main.dumpResultSet(rset);
 			//s'il n'existe pas dans la table stagiaire
 			if(!rset.next()){
 				//On regarde si le code existe dans Personne au quel cas on lève une exception
