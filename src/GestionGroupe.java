@@ -89,6 +89,7 @@ public class GestionGroupe {
 		catch (SQLException e) {
 			c.rollback(sp);
 			e.printStackTrace();
+			Main.graphique.mainMenu();
 		}
 	}
 	
@@ -139,6 +140,7 @@ public class GestionGroupe {
 		catch (SQLException e) {
 			c.rollback(sp);
 			e.printStackTrace();
+			Main.graphique.mainMenu();
 		}	
 		
 	}

@@ -22,6 +22,7 @@ public class ClassementCentres {
 		} catch (SQLException e) {
 			c.rollback(sp);
 			e.printStackTrace();
+			Main.graphique.mainMenu();
 		}
 	}
 	
