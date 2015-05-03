@@ -21,13 +21,16 @@ public class PlanificationSeance {
 			do {
 				stmt = c.prepareStatement("SELECT g.CodeGroupe FROM Groupe g WHERE g.CodeGroupe = ?");
 				if (t == 0) {
-					System.out.println("Entrez le numéro du groupe");
+					//System.out.println("Entrez le numéro du groupe");
+					Main.graphique.setInfoLab("Entrez le numéro du groupe");
 				} else {
-					System.out.println("Numéro invalide, réessayez");
+					//System.out.println("Numéro invalide, réessayez");
+					Main.graphique.setInfoLab("Entrez le numéro du groupe");
 				}
 				t++;
-				CodeGroupe = sc.nextInt();
-				sc.nextLine();
+				CodeGroupe = Main.graphique.setVarInfoInt();
+				//CodeGroupe = sc.nextInt();
+				//sc.nextLine();
 				stmt.setInt(1, CodeGroupe);
 				rset = stmt.executeQuery();
 				// Tant que le numéro de groupe est invalide
@@ -66,26 +69,35 @@ public class PlanificationSeance {
 			rset = stmt.executeQuery();
 			rset.next();
 			Date FinG = rset.getDate(1);
-
-			System.out.println("Entrez l'année de début (yyyy): ");
-			int annee = sc.nextInt();
-			sc.nextLine();
-			System.out.println("Entrez le mois de début (mm): ");
-			int mois = sc.nextInt();
-			sc.nextLine();
-			System.out.println("Entrez le jour de début (dd): ");
-			int jour = sc.nextInt();
-			sc.nextLine();
+			Main.graphique.setInfoLab("Entrez l'année de début (yyyy): ");
+			//System.out.println("Entrez l'année de début (yyyy): ");
+			//int annee = sc.nextInt();
+			int annee = Main.graphique.setVarInfoInt();
+			//sc.nextLine();
+			//System.out.println("Entrez le mois de début (mm): ");
+			Main.graphique.setInfoLab("Entrez le mois de début (mm): ");
+			//int mois = sc.nextInt();
+			int mois = Main.graphique.setVarInfoInt();
+			//sc.nextLine();
+			//System.out.println("Entrez le jour de début (dd): ");
+			Main.graphique.setInfoLab("Entrez le jour de début (dd): ");
+			//int jour = sc.nextInt();
+			int jour = Main.graphique.setVarInfoInt();
+			//sc.nextLine();
 
 			Calendar DebutS = new java.util.GregorianCalendar(annee, mois - 1,
 					jour);
 
-			System.out.println("Entrez l'heure de début: ");
-			int heure = sc.nextInt();
-			sc.nextLine();
-			System.out.println("Entrez la durée de la séance en heure: ");
-			int duree = sc.nextInt();
-			sc.nextLine();
+			//System.out.println("Entrez l'heure de début: ");
+			Main.graphique.setInfoLab("Entrez l'heure de début: ");
+			//int heure = sc.nextInt();
+			int heure = Main.graphique.setVarInfoInt();
+			//sc.nextLine();
+			//System.out.println("Entrez la durée de la séance en heure: ");
+			Main.graphique.setInfoLab("Entrez la durée de la séance en heure: ");
+			//int duree = sc.nextInt();
+			int duree = Main.graphique.setVarInfoInt();
+			//sc.nextLine();
 
 			DebutS.add(Calendar.HOUR_OF_DAY, heure);
 			Calendar FinS = (Calendar) DebutS.clone();
@@ -111,13 +123,16 @@ public class PlanificationSeance {
 				stmt = c.prepareStatement("SELECT s.NumSeance FROM Groupe g, Seance s WHERE g.CodeGroupe = ? "
 						+ "and s.NumSeance = ? and s.CodeGroupe = g.CodeGroupe");
 				if (t == 0) {
-					System.out.println("Entrez le numéro de la seance");
+					//System.out.println("Entrez le numéro de la seance");
+					Main.graphique.setInfoLab("Entrez le numéro de la seance");
 				} else {
-					System.out.println("Numéro déjà attribué, réessayez");
+					//System.out.println("Numéro déjà attribué, réessayez");
+					Main.graphique.setInfoLab("Numéro déjà attribué, réessayez");
 				}
 				t++;
-				CodeSeance = sc.nextInt();
-				sc.nextLine();
+				//CodeSeance = sc.nextInt();
+				CodeSeance = Main.graphique.setVarInfoInt();
+				//sc.nextLine();
 				stmt.setInt(1, CodeGroupe);
 				stmt.setInt(2, CodeSeance);
 				rset = stmt.executeQuery();
@@ -172,14 +187,18 @@ public class PlanificationSeance {
 
 				t=0;
 				while (t != -1) {
-					System.out.println("");
-					System.out.println("Entrez le code du matériel que vous souhaitez (-1 pour quitter):");
-					int code = sc.nextInt();
+					//System.out.println("");
+					//System.out.println("Entrez le code du matériel que vous souhaitez (-1 pour quitter):");
+					Main.graphique.setInfoLab("Entrez le code du matériel que vous souhaitez (-1 pour quitter):");
+					//int code = sc.nextInt();
+					int code = Main.graphique.setVarInfoInt();
 					t=code;
-					sc.nextLine();
+					//sc.nextLine();
 					if(t!=-1) {
-						System.out.println("Entrez la quantitée de matériel que vous souhaitez");
-						int quant = sc.nextInt();
+						//System.out.println("Entrez la quantitée de matériel que vous souhaitez");
+						Main.graphique.setInfoLab("Entrez la quantitée de matériel que vous souhaitez");
+						//int quant = sc.nextInt();
+						int quant = Main.graphique.setVarInfoInt();
 						stmt = c.prepareStatement("INSERT INTO Utilise "
 							+ "Values (?, ?, ?, ?, ?)");
 						stmt.setInt(1, CodeGroupe);
@@ -250,12 +269,14 @@ public class PlanificationSeance {
 				}
 			} else {
 				// L'activité ne demande pas de matériel
-				System.out.println("Cette séance ne demande aucun matériel, enregistrement terminé");
+				//System.out.println("Cette séance ne demande aucun matériel, enregistrement terminé");
+				Main.graphique.setInfoLab("Cette séance ne demande aucun matériel, enregistrement terminé");
 			}
 
 			stmt.close();
 			rset.close();
 			c.commit();
+			Main.graphique.mainMenu();
 
 		} catch (SQLException e) {
 			c.rollback(sp);
