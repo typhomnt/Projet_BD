@@ -143,6 +143,9 @@ traitées, puis celles avec cardinalité ($0..1$) non encore traitées, puis cel
 Nous obtenons le schéma relationnel suivant, où apparaissent les contraintes que l'on a pu y insérer et où l'on a séparé les différents
 types d'entités.
 
+Pour la normalisation, étant donné que que les tables ont été créées à partir du modèle entité/association, on peut dire que
+toutes les relations sont en 3FN BCK.
+
 \subsection{Entités simples}
 
 
@@ -260,7 +263,6 @@ CodeAdr,VilleAdr)}
     \hspace{1cm}Vérifier qu’un Moniteur encadre au moins une Activite\\
     
 \end{small}
-
 
 \section{Analyse des fonctionnalités et implémentations en SQL}
 
