@@ -3,8 +3,8 @@ import java.util.Scanner;
 
 public class Main {
 	
-	static String id = "ghorreso";
-	static String pwd = "ghorreso";
+	static String id = "garcia1";
+	static String pwd = "garcia1";
 	static String url = "jdbc:oracle:thin:@ensioracle1.imag.fr:1521:ensioracle1";
 	static Connection cnct;
 
@@ -46,7 +46,6 @@ public class Main {
 					"11) Classement des villes par nombre de stagiaires inscrits\n" +
 					"12) Sortir ?\n");
 			i = lecteur.nextInt();
-			
 			try {
 			if(i==1){ // Enregistrement d'un stagiaire dans un centre
 				RegisterQuery.register(cnct);
@@ -55,10 +54,10 @@ public class Main {
 				RegisterQuery.activity(cnct);
 			}
 			if(i==3){ // Creation d'un groupe
-			    // TODO
+			    GestionGroupe.creation(cnct);
 			}
 			if(i==4){ // Suppression d'un groupe
-				// TODO
+				GestionGroupe.suppression(cnct);
 			}
 			if(i==5){ // Planification d'une seance pour un groupe
 			    PlanificationSeance.register(cnct);
@@ -85,7 +84,6 @@ public class Main {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-			lecteur.nextLine();
 		} // fin du while
 		
 		lecteur.close();
