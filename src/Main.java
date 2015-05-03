@@ -46,7 +46,6 @@ public class Main {
 					"11) Classement des villes par nombre de stagiaires inscrits\n" +
 					"12) Sortir ?\n");
 			i = lecteur.nextInt();
-			lecteur.nextLine();
 			try {
 			if(i==1){ // Enregistrement d'un stagiaire dans un centre
 				RegisterQuery.register(cnct);

@@ -21,6 +21,8 @@ public class RegisterQuery {
 		//On fait un SavePoint en cas d'exception
 		Savepoint sp = c.setSavepoint();
 		System.out.println("Enregistrement d'un stagiaire dans un centre");
+		System.out.println("Voici la liste des stagiaires déjà existants");
+		AffichageTable.affichageStagiaire(c);
 		PreparedStatement stmt;
 		ResultSet rset;
 		try {
@@ -108,14 +110,20 @@ public class RegisterQuery {
 			}
 			//Insertion dans un centre 
 			// Ici on regarde si le centre existe
+			System.out.println("Voici la liste des centres disponibles");
+			AffichageTable.affichageCentre(c);
 			stmt = c.prepareStatement("SELECT c.CodeCentre FROM Centre c WHERE c.CodeCentre = ?");
 			System.out.println("Entrez un numéro de centre");
 			Integer codeCentr = sc.nextInt();
 			stmt.setInt(1, codeCentr);
 			rset = stmt.executeQuery();
+			//On pourrait demander la création d'un nouveau centre
 			if(!rset.next()){
-				
+				sc.close();
+				throw new SQLException("Le centre entré n'existe pas");
 			}
+			System.out.println("Voici les differentes inscriptions du stagiaire");
+			AffichageTable.affichageInscriptionDansCentre(c, codeStag);
 			System.out.println("Entrez une date de debut d'inscription au format yyyy-mm-dd:");
 			sc.nextLine();
 			dateDeb = sc.nextLine();
@@ -175,6 +183,9 @@ public class RegisterQuery {
 			String catAct;
 			String descrAct;
 			Integer codeGroupe;
+			Integer codeCentre;
+			Date dateDeb;
+			Date dateFin;
 			try {
 				// Ici on regarde si le stagiaire entré existe déjà dans la table stagiaire ou non
 				stmt = c.prepareStatement("SELECT s.CodePersonne FROM Stagiaire s WHERE s.CodePersonne = ?");
@@ -232,7 +243,7 @@ public class RegisterQuery {
 				System.out.println("Entrez le numero du groupe auquel vous voulez inscrire le stagiaire :");
 				
 				codeGroupe = sc.nextInt();
-				stmt = c.prepareStatement("SELECT g.codeGroupe FROM Groupe g WHERE g.CodeGroupe = ? AND g.CodeAct = ?");
+				stmt = c.prepareStatement("SELECT g.codeCentre,g.codeGroupe,g.DateDebutGroupe,g.DateFinGroupe FROM Groupe g WHERE g.CodeGroupe = ? AND g.CodeAct = ?");
 				stmt.setInt(1, codeGroupe);
 				stmt.setInt(2, codeA);
 				rset.close();
@@ -241,6 +252,24 @@ public class RegisterQuery {
 					sc.close();
 					throw new SQLException("Le groupe ne pratique pas l'activité désirée");
 				}
+				else{
+					codeCentre = rset.getInt("codeCentre");
+					dateDeb = rset.getDate("DateDebutGroupe");
+					dateFin = rset.getDate("DateFinGroupe");
+					//On verifie que le groupe fait bien parti du centre ou le stagiaire est inscrit et que les périodes d'inscription correspondent
+					stmt = c.prepareStatement("SELECT c.* FROM EstInscritDansCentre c WHERE c.codeCentre = ? AND c.codePersonne = ? AND c.Datedeb <= ? AND c.Datefin >= ?");
+					stmt.setInt(1, codeCentre);
+					stmt.setInt(2, codeStag);
+					stmt.setDate(3, dateDeb);
+					stmt.setDate(4, dateFin);
+					rset.close();
+					rset = stmt.executeQuery();
+					if(!rset.next()){
+						sc.close();
+						throw new SQLException("Le stagiaire n'est pas inscrit dans le centre du groupe");
+					}
+				}
+				
 				stmt = c.prepareStatement("INSERT INTO EstDansGroupe VALUES(?,?)");
 				stmt.setInt(1, codeStag);
 				stmt.setInt(2, codeGroupe);
