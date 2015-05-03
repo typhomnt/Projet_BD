@@ -103,23 +103,23 @@ public class Interface extends JFrame implements ActionListener, Runnable{
 		this.container.add(getInfoText);
 		this.container.add(validateButton);
 		//Placement des differents composants
-		this.stagCentButton.setBounds(50, 200, 400, 30);
-		this.stagActButton.setBounds(50, 250, 400, 30);
-		this.addGroupButton.setBounds(50, 300, 400, 30);
-		this.delGroupButton.setBounds(50, 350, 400, 30);
-		this.planGroupBUtton.setBounds(50,400, 400, 30);
-		this.allPlanButton.setBounds(50, 450, 400, 30);
-		this.allStuff.setBounds(50, 500, 400, 30);
-		this.addStuff.setBounds(50, 550, 400, 30);
-		this.delStuff.setBounds(50, 600, 400, 30);
-		this.classCenter.setBounds(50, 650, 400, 30);
-		this.classTown.setBounds(50, 700, 400, 30);
-		this.close.setBounds(50, 750, 400, 30);
+		this.stagCentButton.setBounds(50, 100, 400, 30);
+		this.stagActButton.setBounds(50, 150, 400, 30);
+		this.addGroupButton.setBounds(50, 200, 400, 30);
+		this.delGroupButton.setBounds(50, 250, 400, 30);
+		this.planGroupBUtton.setBounds(50,300, 400, 30);
+		this.allPlanButton.setBounds(50, 350, 400, 30);
+		this.allStuff.setBounds(50, 400, 400, 30);
+		this.addStuff.setBounds(50, 450, 400, 30);
+		this.delStuff.setBounds(50, 500, 400, 30);
+		this.classCenter.setBounds(50, 550, 400, 30);
+		this.classTown.setBounds(50, 600, 400, 30);
+		this.close.setBounds(50, 650, 400, 30);
 		this.mainLab.setBounds(600, 25, 400, 50);
 		this.requestLab.setBounds(50, 160, 1200, 500);
 		this.getInfoLab.setBounds(300, 50, 400, 50);
 		this.getInfoText.setBounds(300, 100, 400, 50);
-		this.validateButton.setBounds(300, 700, 400, 50);
+		this.validateButton.setBounds(300, 500, 400, 50);
 		this.requestLab.setVisible(false);
 		this.getInfoLab.setVisible(false);
 		this.getInfoText.setVisible(false);
@@ -320,6 +320,10 @@ public class Interface extends JFrame implements ActionListener, Runnable{
 	public String setVarInfoStr(){
 		//s = this.getInfoText.getText();
 		return JOptionPane.showInputDialog(this, getInfoLab.getText(), "", JOptionPane.QUESTION_MESSAGE);
+	}
+	
+	public Integer yesNoQuestion(){
+		return JOptionPane.showConfirmDialog(this, getInfoLab.getText(), "", JOptionPane.YES_NO_OPTION);
 	}
 	
 	public JTextField getText(){

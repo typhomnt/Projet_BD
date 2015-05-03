@@ -2,6 +2,8 @@ import java.awt.font.GraphicAttribute;
 import java.sql.*;
 import java.util.Scanner;
 
+import javax.swing.JOptionPane;
+
 public class RegisterQuery {
 	
 	public static void register(Connection c) throws SQLException {
@@ -20,6 +22,7 @@ public class RegisterQuery {
 		String dateDeb = new String();
 		String dateFin = new String();
 		Integer codeStag = 0;
+		Integer codeCentr = 0;
 		//On fait un SavePoint en cas d'exception
 		Savepoint sp = c.setSavepoint();
 		System.out.println("Enregistrement d'un stagiaire dans un centre");
@@ -135,8 +138,9 @@ public class RegisterQuery {
 			System.out.println("Voici la liste des centres disponibles");
 			AffichageTable.affichageCentre(c);
 			stmt = c.prepareStatement("SELECT c.CodeCentre FROM Centre c WHERE c.CodeCentre = ?");
-			System.out.println("Entrez un numéro de centre");
-			Integer codeCentr = sc.nextInt();
+			//System.out.println("Entrez un numéro de centre");
+			Main.graphique.setInfoLab("Entrez un numéro de centre");
+			codeCentr = Main.graphique.setVarInfoInt();
 			stmt.setInt(1, codeCentr);
 			rset = stmt.executeQuery();
 			//On pourrait demander la création d'un nouveau centre
@@ -146,11 +150,15 @@ public class RegisterQuery {
 			}
 			System.out.println("Voici les differentes inscriptions du stagiaire");
 			AffichageTable.affichageInscriptionDansCentre(c, codeStag);
-			System.out.println("Entrez une date de debut d'inscription au format yyyy-mm-dd:");
-			sc.nextLine();
-			dateDeb = sc.nextLine();
-			System.out.println("Entrez une date de fin d'inscription au format yyyy-mm-dd:");
-			dateFin = sc.nextLine();
+			//System.out.println("Entrez une date de debut d'inscription au format yyyy-mm-dd:");
+			//sc.nextLine();
+			//dateDeb = sc.nextLine();
+			Main.graphique.setInfoLab("Entrez une date de debut d'inscription au format yyyy-mm-dd:");
+			dateDeb = Main.graphique.setVarInfoStr();
+			//System.out.println("Entrez une date de fin d'inscription au format yyyy-mm-dd:");
+			//dateFin = sc.nextLine();
+			Main.graphique.setInfoLab("Entrez une date de fin d'inscription au format yyyy-mm-dd:");
+			dateFin = Main.graphique.setVarInfoStr();
 			//On verifie que datefin > datedeb)
 			Date deb = Date.valueOf(dateDeb);
 			Date fin = Date.valueOf(dateFin);
@@ -200,21 +208,25 @@ public class RegisterQuery {
 			PreparedStatement stmt;
 			ResultSet rset;
 			Scanner sc = new Scanner(System.in);
-			Integer codeA;
-			String nomAct;
-			String catAct;
-			String descrAct;
-			Integer codeGroupe;
-			Integer codeCentre;
+			Integer codeA = 0;
+			String nomAct = new String();
+			String catAct = new String();
+			String descrAct = new String();
+			Integer codeStag = 0;
+			Integer codeGroupe = 0;
+			Integer codeCentre = 0;
 			Date dateDeb;
 			Date dateFin;
+			int reply;
 			try {
 				// Ici on regarde si le stagiaire entré existe déjà dans la table stagiaire ou non
 				stmt = c.prepareStatement("SELECT s.CodePersonne FROM Stagiaire s WHERE s.CodePersonne = ?");
 				System.out.println("Voici la liste des stagiaires");
 				AffichageTable.affichageStagiaire(c);
-				System.out.println("Entrez un numéro de stagiaire");
-				Integer codeStag = sc.nextInt();
+				//System.out.println("Entrez un numéro de stagiaire");
+				//codeStag = sc.nextInt();
+				Main.graphique.setInfoLab("Entrez un numéro de stagiaire");
+				codeStag = Main.graphique.setVarInfoInt();
 				stmt.setInt(1, codeStag);
 				rset = stmt.executeQuery();
 				if(!rset.next()){
@@ -229,32 +241,46 @@ public class RegisterQuery {
 					}
 					sc.nextLine();
 					//On demande si on veut rajouter le stagiaire dans la base
-					System.out.println("Le stagiaire n'est pas dans la base voulez vous le rejouter [o/n]?");
-					if(sc.nextLine().equals("o"))
+					//System.out.println("Le stagiaire n'est pas dans la base voulez vous le rejouter [o/n]?");
+					//if(sc.nextLine().equals("o"))
+					Main.graphique.setInfoLab("Le stagiaire n'est pas dans la base voulez vous le rejouter [o/n]?");
+					reply = Main.graphique.yesNoQuestion();
+					if(reply == JOptionPane.YES_OPTION)
 						register(c);
 				}
 				stmt.close();
 				//On verifie que l'activite existe
 				System.out.println("Voici la liste des activités disponibles");
 				AffichageTable.affichageActivite(c);
-				System.out.println("Entrez le numéro d'une activité");
+				//System.out.println("Entrez le numéro d'une activité");
 				stmt = c.prepareStatement("SELECT a.CodeAct FROM Activite a WHERE a.CodeAct = ?");
-				sc.nextLine();
-				codeA = sc.nextInt();
-				sc.nextLine();
+				//sc.nextLine();
+				//codeA = sc.nextInt();
+				//sc.nextLine();
+				Main.graphique.setInfoLab("Entrez le numéro d'une activité");
+				codeA = Main.graphique.setVarInfoInt();
 				stmt.setInt(1, codeA);
 				rset.close();
 				rset = stmt.executeQuery();
 				if(!rset.next()){
 					//On demande si on veut créer l'activité
-					System.out.println("l'activité n'existe pas voulez vous la créer [o/n] ?");
-					if(sc.nextLine().equals("o")){
-						System.out.println("Entrez le nom de l'activité :");
-						nomAct = sc.nextLine();
-						System.out.println("Entrez la categorie de l'activité :");
-						catAct = sc.nextLine();
-						System.out.println("Entrez la description de l'activité :");
-						descrAct = sc.nextLine();
+					//System.out.println("l'activité n'existe pas voulez vous la créer [o/n] ?");
+					//if(sc.nextLine().equals("o")){
+					Main.graphique.setInfoLab("l'activité n'existe pas voulez vous la créer [o/n] ?");
+					reply = Main.graphique.yesNoQuestion();
+					if(reply == JOptionPane.YES_OPTION){
+						//System.out.println("Entrez le nom de l'activité :");
+						//nomAct = sc.nextLine();
+						Main.graphique.setInfoLab("Entrez le nom de l'activité :");
+						nomAct = Main.graphique.setVarInfoStr();
+						//System.out.println("Entrez la categorie de l'activité :");
+						//catAct = sc.nextLine();
+						Main.graphique.setInfoLab("Entrez la catégorie de l'activité :");
+						catAct = Main.graphique.setVarInfoStr();
+						//System.out.println("Entrez la description de l'activité :");
+						//descrAct = sc.nextLine();
+						Main.graphique.setInfoLab("Entrez la description de l'activité :");
+						descrAct = Main.graphique.setVarInfoStr();
 						stmt.close();
 						stmt = c.prepareStatement("INSERT INTO Activite VALUES(?,?,?,?)");
 						stmt.setInt(1, codeA);
@@ -268,8 +294,10 @@ public class RegisterQuery {
 				//Enregistrement dans un groupe 
 				System.out.println("Voici la liste des groupes disponibles");
 				AffichageTable.affichageGroupe(c);
-				System.out.println("Entrez le numero du groupe auquel vous voulez inscrire le stagiaire :");
-				codeGroupe = sc.nextInt();
+				//System.out.println("Entrez le numero du groupe auquel vous voulez inscrire le stagiaire :");
+				//codeGroupe = sc.nextInt();
+				Main.graphique.setInfoLab("Entrez le numero du groupe auquel vous voulez inscrire le stagiaire :");
+				codeGroupe = Main.graphique.setVarInfoInt();
 				stmt = c.prepareStatement("SELECT g.codeCentre,g.codeGroupe,g.DateDebutGroupe,g.DateFinGroupe FROM Groupe g WHERE g.CodeGroupe = ? AND g.CodeAct = ?");
 				stmt.setInt(1, codeGroupe);
 				stmt.setInt(2, codeA);
