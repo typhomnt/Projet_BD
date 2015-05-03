@@ -23,8 +23,8 @@ public class Main {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		//graphique = new Interface();
-		int i = 12;
+		graphique = new Interface();
+/*		int i = 12;
 		Scanner lecteur = new Scanner(System.in);
 		try {
 			if (cnct.isValid(1)) 
@@ -94,7 +94,7 @@ public class Main {
 		} catch (SQLException e) {
 			System.err.println("Impossible de fermer la connexion");
 			e.printStackTrace();
-		}
+		}*/
 	}
 	
 	public static void dumpResultSet(ResultSet rset) throws SQLException {
