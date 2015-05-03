@@ -93,6 +93,8 @@ public class PlanificationSeance {
 
 			// /!\ les comparaison sont strictes, on change donc le nombre de
 			// milliseconde pour changer ce comportement
+			System.out.println(DebutS.getTime());
+			System.out.println(FinS.getTime());
 			if (DebutG.after(new Date(DebutS.getTime().getTime() + 1))
 					|| FinG.before(new Date(FinS.getTime().getTime() - 1))) {
 				c.rollback(sp);
@@ -104,7 +106,9 @@ public class PlanificationSeance {
 			t = 0;
 			// On choisit le numéro de séance
 			do {
-				stmt = c.prepareStatement("SELECT s.NumSeance FROM Groupe g Seance s WHERE g.CodeGroupe = ?"
+				stmt.close();
+				rset.close();
+				stmt = c.prepareStatement("SELECT s.NumSeance FROM Groupe g, Seance s WHERE g.CodeGroupe = ? "
 						+ "and s.NumSeance = ? and s.CodeGroupe = g.CodeGroupe");
 				if (t == 0) {
 					System.out.println("Entrez le numéro de la seance");
@@ -118,12 +122,13 @@ public class PlanificationSeance {
 				stmt.setInt(2, CodeSeance);
 				rset = stmt.executeQuery();
 				// Tant que le numéro de groupe est invalide
-			} while (!rset.next());
+			} while (rset.next());
 
 			// on ajoute la seance, on verifiera ensuite si cela crée un
 			// problème avec le materiel
+			stmt.close();
 			stmt = c.prepareStatement("INSERT INTO Seance"
-					+ "Values (?, ?, ?, ?, ?)");
+					+ " Values (?, ?, ?, ?, ?)");
 			stmt.setInt(1, CodeGroupe);
 			stmt.setInt(2, CodeSeance);
 			// on remet la date dans DebutS, et non plus la date avec l'heure de
@@ -142,12 +147,11 @@ public class PlanificationSeance {
 			int CodeCentre = rset.getInt(1);
 
 			// On recupere le type de materiel requis
-			stmt = c.prepareStatement("SELECT distinct N.Type"
-					+ "FROM Necessite N, Seance S, Groupe G"
-					+ "WHERE S.NumSeance = NumSeance and S.CodeGroupe = CodeGroupe"
-					+ "and G.CodeGroupe = S.CodeGroupe and G.CodeAct = S.CodeAct and N.CodeCentre = G.CodeCentre;");
-			stmt.setInt(1, CodeSeance);
-			stmt.setInt(2, CodeGroupe);
+			stmt = c.prepareStatement("SELECT distinct N.Type "
+					+ "FROM Necessite N, Groupe G "
+					+ "WHERE G.CodeGroupe = ? "
+					+ "and N.CodeAct = G.CodeAct");
+			stmt.setInt(1, CodeGroupe);
 			rset = stmt.executeQuery();
 
 			if (rset.next()) {
@@ -158,8 +162,8 @@ public class PlanificationSeance {
 				
 				//On affiche le materiel disponible
 				System.out.println("Materiel compatible disponible:");
-				stmt = c.prepareStatement("SELECT *"+
-				"FROM Materiel M, Groupe g"+
+				stmt = c.prepareStatement("SELECT M.* "+
+				"FROM Materiel M, Groupe g "+
 				"where M.CodeCentre = g.CodeCentre and g.CodeGroupe = ? and M.Type = ?");
 				stmt.setInt(1, CodeGroupe);
 				stmt.setString(2, type);
@@ -168,6 +172,7 @@ public class PlanificationSeance {
 
 				t=0;
 				while (t != -1) {
+					System.out.println("");
 					System.out.println("Entrez le code du matériel que vous souhaitez (-1 pour quitter):");
 					int code = sc.nextInt();
 					t=code;
@@ -175,8 +180,8 @@ public class PlanificationSeance {
 					if(t!=-1) {
 						System.out.println("Entrez la quantitée de matériel que vous souhaitez");
 						int quant = sc.nextInt();
-						stmt = c.prepareStatement("INSERT INTO Utilise"
-							+ "Values (CodeGroupe, NumSeance, CodeCentre, NumMateriel, Quantitée)");
+						stmt = c.prepareStatement("INSERT INTO Utilise "
+							+ "Values (?, ?, ?, ?, ?)");
 						stmt.setInt(1, CodeGroupe);
 						stmt.setInt(2, CodeSeance);
 						stmt.setInt(3, CodeCentre);
@@ -185,28 +190,28 @@ public class PlanificationSeance {
 						rset = stmt.executeQuery();
 						
 						//On cherche la quantité max de ce materiel qu'on utilisera desormais pendant les seance
-						stmt = c.prepareStatement("SELECT Max(Quantite)"+
-						"FROM"+
-						"("+
+						stmt = c.prepareStatement("SELECT Max(Q.Quantite) "+
+						"FROM "+
+						"( "+
 						//	--on fait la somme de materiel utilisé a chaque commencement de seance
-						"	SELECT Dates.MomentTest, Sum(U.QuantiteNecessaire) as Quantite"+
+						"	SELECT Dates.MomentTest, Sum(U.QuantiteNecessaire) as Quantite "+
 						"	FROM Utilise U, Seance S, Groupe G, "+
 						//	--on cherche a obtenir chaque nouveau commencement de seance entre le debut et la fin de notre seance
-						"	(SELECT (S.DateSeance + ?) as MomentTest"+
-						"	    FROM Utilise U, Seance S, Groupe G"+
-						"	        WHERE U.NumMateriel = ? and U.CodeCentre = g.CodeCentre and"+
-						"			g.CodeCentre = ? and"+
-						"		    U.CodeGroupe = G.CodeGroupe and U.NumSeance = S.NumSeance and"+
-						"   		    S.DateSeance + TO_DATE(TO_CHAR(S.HeureDebutSeance,'99'),'HH24') < TO_DATE(?,'DD/MM/YYYY:HH24:MI:SS') and"+
-						"   		    S.DateSeance + TO_DATE(TO_CHAR(S.HeureDebutSeance,'99'),'HH24') >= TO_DATE(?,'DD/MM/YYYY:HH24:MI:SS')"+
-						"	       ) as Dates"+
-						"	WHERE U.NumMateriel = ? and U.CodeCentre = g.CodeCentre and g.CodeCentre = ?"+
-						"	and U.CodeGroupe = G.CodeGroupe and U.NumSeance = S.NumSeance"+
-						"	and S.DateSeance+S.HeureDebutSeance IN Dates.MomentTest"+
-						"	GROUP BY Dates.MomentTest)");
-						stmt.setInt(1, heure);
-						stmt.setInt(2, code);
-						stmt.setInt(3, CodeCentre);
+						"	(SELECT (DATE_ADD(S.DateSeance, INTERVAL (TO_CHAR(S.HeureDebutSeance ,'9999')) HOUR)) as MomentTest "+
+						"	    FROM Utilise U, Seance S, Groupe G "+
+						"	        WHERE U.NumMateriel = ? and U.CodeCentre = g.CodeCentre and "+
+						"			g.CodeCentre = ? and "+
+						"		    U.CodeGroupe = G.CodeGroupe and U.NumSeance = S.NumSeance and "+
+						"   		    (DATE_ADD(S.DateSeance, INTERVAL (TO_CHAR(S.HeureDebutSeance,'9999')) HOUR)) < (TO_DATE(?,'DD/MM/YYYY:HH24:MI:SS')) and "+
+						"   		    (DATE_ADD(S.DateSeance, INTERVAL (TO_CHAR(S.HeureDebutSeance,'9999')) HOUR)) >= (TO_DATE(?,'DD/MM/YYYY:HH24:MI:SS')) "+
+						"	       ) Dates "+
+						"	WHERE U.NumMateriel = ? and U.CodeCentre = g.CodeCentre and g.CodeCentre = ? "+
+						"	and U.CodeGroupe = G.CodeGroupe and U.NumSeance = S.NumSeance "+
+						"	and (DATE_ADD(S.DateSeance, INTERVAL (TO_CHAR(S.HeureDebutSeance ,'9999')) HOUR)) IN Dates.MomentTest "+
+						"	GROUP BY Dates.MomentTest) Q");
+//						stmt.setInt(1, heure);
+						stmt.setInt(1, code);
+						stmt.setInt(2, CodeCentre);
 						
 						DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy:hh:mm:ss");
 						
@@ -218,10 +223,10 @@ public class PlanificationSeance {
 						dateDate = DebutS.getTime();
 						String retour2 = dateFormat.format(dateDate);
 
-						stmt.setString(4, retour);
-						stmt.setString(5, retour2);
-						stmt.setInt(6, code);
-						stmt.setInt(7, CodeCentre);						
+						stmt.setString(3, retour);
+						stmt.setString(4, retour2);
+						stmt.setInt(5, code);
+						stmt.setInt(6, CodeCentre);						
 						rset = stmt.executeQuery();
 						rset.next();
 						int maxUtil = rset.getInt(1);
