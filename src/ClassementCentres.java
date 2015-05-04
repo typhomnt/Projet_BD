@@ -1,5 +1,7 @@
 import java.sql.*;
 
+import javax.swing.JOptionPane;
+
 
 public class ClassementCentres {
 	
@@ -7,6 +9,8 @@ public class ClassementCentres {
 		Savepoint sp = c.setSavepoint();
 		System.out.println("Pour chaque activité, classement des centres en fonction" +
 							" du nombre d'inscrits");
+		Main.graphique.setInfReq("Pour chaque activité, classement des centres en fonction" +
+				" du nombre d'inscrits");
 		Statement stmt;
 		ResultSet rset;
 		try {
@@ -22,6 +26,7 @@ public class ClassementCentres {
 		} catch (SQLException e) {
 			c.rollback(sp);
 			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Error",JOptionPane.ERROR_MESSAGE);
 			Main.graphique.mainMenu();
 		}
 	}

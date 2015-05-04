@@ -23,10 +23,13 @@ public class RegisterQuery {
 		String dateFin = new String();
 		Integer codeStag = 0;
 		Integer codeCentr = 0;
+		int reply = 0;
 		//On fait un SavePoint en cas d'exception
 		Savepoint sp = c.setSavepoint();
 		System.out.println("Enregistrement d'un stagiaire dans un centre");
+		Main.graphique.setTitle("Enregistrement d'un stagiaire dans un centre");
 		System.out.println("Voici la liste des stagiaires déjà existants");
+		Main.graphique.setInfReq("Voici la liste des stagiaires déjà existants");
 		AffichageTable.affichageStagiaire(c);
 		PreparedStatement stmt;
 		ResultSet rset;
@@ -51,7 +54,9 @@ public class RegisterQuery {
 					sc.close();
 					throw new SQLException("Le statgiaire ne peut etre ni responsable ni moniteur");
 				}
-				else{
+				Main.graphique.setInfoLab("Le stagiaire n'est pas dans la base voulez vous le rajouter [o/n]?");
+				reply = Main.graphique.yesNoQuestion();
+				if(reply == JOptionPane.YES_OPTION){
 					// On va ajouter le stagiaire à la base et on récupère toutes les infos
 					//sc.nextLine();
 					System.out.println("Entrez le nom du Stagiaire :");
@@ -85,7 +90,7 @@ public class RegisterQuery {
 					//rueAdr = sc.nextLine();
 					rueAdr = Main.graphique.setVarInfoStr();
 					System.out.println("Entrez l'arrondissement du Stagiaire :");
-					Main.graphique.setInfoLab("Entrez l'arrondissement du Stagiaire :");
+					Main.graphique.setInfoLab("Entrez le code postal du Stagiaire :");
 					//codeAdr = sc.nextInt();
 					//sc.nextLine();
 					codeAdr = Main.graphique.setVarInfoInt();
@@ -131,11 +136,16 @@ public class RegisterQuery {
 					rset.close();
 					rset = stmt.executeQuery();
 					System.out.println("Insertion dans stagiaire reussie");
+				}	
+				else {
+					sc.close();
+					throw new SQLException("Annulation de la requête");
 				}
-			}
+			} 
 			//Insertion dans un centre 
 			// Ici on regarde si le centre existe
 			System.out.println("Voici la liste des centres disponibles");
+			Main.graphique.setInfReq("Voici la liste des centres disponibles");
 			AffichageTable.affichageCentre(c);
 			stmt = c.prepareStatement("SELECT c.CodeCentre FROM Centre c WHERE c.CodeCentre = ?");
 			//System.out.println("Entrez un numéro de centre");
@@ -149,6 +159,7 @@ public class RegisterQuery {
 				throw new SQLException("Le centre entré n'existe pas");
 			}
 			System.out.println("Voici les differentes inscriptions du stagiaire");
+			Main.graphique.setInfReq("Voici les differentes inscriptions du stagiaire");
 			AffichageTable.affichageInscriptionDansCentre(c, codeStag);
 			//System.out.println("Entrez une date de debut d'inscription au format yyyy-mm-dd:");
 			//sc.nextLine();
@@ -198,6 +209,7 @@ public class RegisterQuery {
 		} catch (SQLException e) {
 			c.rollback(sp);
 			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Error",JOptionPane.ERROR_MESSAGE);
 			Main.graphique.mainMenu();
 		}
 		
@@ -206,6 +218,7 @@ public class RegisterQuery {
 		//On fait un SavePoint en cas d'exception
 			Savepoint sp = c.setSavepoint();
 			System.out.println("Enregistrement d'un stagiaire à une activité");
+			Main.graphique.setTitle("Enregistrement d'un stagiaire à une activité");
 			PreparedStatement stmt;
 			ResultSet rset;
 			Scanner sc = new Scanner(System.in);
@@ -223,6 +236,7 @@ public class RegisterQuery {
 				// Ici on regarde si le stagiaire entré existe déjà dans la table stagiaire ou non
 				stmt = c.prepareStatement("SELECT s.CodePersonne FROM Stagiaire s WHERE s.CodePersonne = ?");
 				System.out.println("Voici la liste des stagiaires");
+				Main.graphique.setInfReq("Voici la liste des stagiaires");
 				AffichageTable.affichageStagiaire(c);
 				//System.out.println("Entrez un numéro de stagiaire");
 				//codeStag = sc.nextInt();
@@ -248,10 +262,15 @@ public class RegisterQuery {
 					reply = Main.graphique.yesNoQuestion();
 					if(reply == JOptionPane.YES_OPTION)
 						register(c);
+					else {
+						sc.close();
+						throw new SQLException("Annulation de la requête");
+					}
 				}
 				stmt.close();
 				//On verifie que l'activite existe
 				System.out.println("Voici la liste des activités disponibles");
+				Main.graphique.setInfReq("Voici la liste des activités disponibles");
 				AffichageTable.affichageActivite(c);
 				//System.out.println("Entrez le numéro d'une activité");
 				stmt = c.prepareStatement("SELECT a.CodeAct FROM Activite a WHERE a.CodeAct = ?");
@@ -291,9 +310,14 @@ public class RegisterQuery {
 						rset.close();
 						rset = stmt.executeQuery();
 					}
+					else {
+						sc.close();
+						throw new SQLException("Annulation de la requête");
+					}
 				}
 				//Enregistrement dans un groupe 
 				System.out.println("Voici la liste des groupes disponibles");
+				Main.graphique.setInfReq("Voici la liste des groupes disponibles");
 				AffichageTable.affichageGroupe(c);
 				//System.out.println("Entrez le numero du groupe auquel vous voulez inscrire le stagiaire :");
 				//codeGroupe = sc.nextInt();
@@ -355,6 +379,7 @@ public class RegisterQuery {
 			catch (SQLException e) {
 				c.rollback(sp);
 				e.printStackTrace();
+				JOptionPane.showMessageDialog(null, e.getMessage(), "Error",JOptionPane.ERROR_MESSAGE);
 				Main.graphique.mainMenu();
 			}
 	}

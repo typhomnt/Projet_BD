@@ -104,7 +104,7 @@ CREATE TABLE Materiel (
     Type VARCHAR(255) Not Null, foreign key (Type) references TypeMateriel(type),
     MarqueMateriel VARCHAR(255) Not Null,
     ModeleMateriel VARCHAR(255) Not Null,
-    QuantiteMateriel INT Not Null,
+    QuantiteMateriel INT Not Null check (QuantiteMateriel >= 0),
     NomNiveau VARCHAR(100) Not Null,foreign key (NomNiveau) references Niveau(niv),
     PRIMARY KEY (CodeCentre, NumMateriel)
 );

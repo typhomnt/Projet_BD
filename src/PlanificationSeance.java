@@ -4,6 +4,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Scanner;
 
+import javax.swing.JOptionPane;
+
 public class PlanificationSeance {
 	public static void register(Connection c) throws SQLException {
 
@@ -12,6 +14,7 @@ public class PlanificationSeance {
 		Scanner sc = new Scanner(System.in);
 		Savepoint sp = c.setSavepoint();
 		System.out.println("Enregistrement d'une seance");
+		Main.graphique.setTitle("Enregistrement d'une seance");
 		PreparedStatement stmt;
 		ResultSet rset;
 		int CodeGroupe;
@@ -281,6 +284,7 @@ public class PlanificationSeance {
 		} catch (SQLException e) {
 			c.rollback(sp);
 			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Error",JOptionPane.ERROR_MESSAGE);
 			Main.graphique.mainMenu();
 		}
 	}

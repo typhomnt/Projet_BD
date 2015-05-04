@@ -1,11 +1,14 @@
 import java.sql.*;
 
+import javax.swing.JOptionPane;
+
 
 public class ClassementVilles {
 
 	public static void classement(Connection c) throws SQLException {
 		Savepoint sp = c.setSavepoint();
 		System.out.println("Classement des villes en fonction du nombre d'inscrits");
+		Main.graphique.setInfReq("Classement des villes en fonction du nombre d'inscrits");
 		Statement stmt;
 		ResultSet rset;
 		try {
@@ -28,6 +31,7 @@ public class ClassementVilles {
 		} catch (SQLException e) {
 			c.rollback(sp);
 			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Error",JOptionPane.ERROR_MESSAGE);
 			Main.graphique.mainMenu();
 		}
 	}

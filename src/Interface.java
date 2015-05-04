@@ -33,7 +33,9 @@ public class Interface extends JFrame implements ActionListener, Runnable{
 	private JLabel requestLab;
 	private JLabel getInfoLab;
 	private JTextField getInfoText;
+	private String titleString;
 	private JButton validateButton;
+	private JLabel infoReq;
 	private Thread action = new Thread(this);
 	public Interface(){
 		this.container = new JPanel();
@@ -53,7 +55,9 @@ public class Interface extends JFrame implements ActionListener, Runnable{
 		this.requestLab = new JLabel();
 		this.getInfoLab = new JLabel();
 		this.getInfoText = new JTextField();
-		this.validateButton = new JButton("Suivant");
+		this.validateButton = new JButton("Retour");
+		this.titleString = new String();
+		this.infoReq = new JLabel();
 		//Parametrage de chaque composant
 		this.mainLab.setFont(new Font("Arial", Font.BOLD, 15));
 		this.mainLab.setForeground(Color.black);
@@ -61,7 +65,8 @@ public class Interface extends JFrame implements ActionListener, Runnable{
 		this.requestLab.setForeground(Color.black);
 		this.getInfoLab.setFont(new Font("Arial", Font.BOLD, 15));
 		this.getInfoLab.setForeground(Color.black);
-		//this.mainLab.setVisible(true);
+		this.infoReq.setFont(new Font("Arial", Font.BOLD, 15));
+		this.infoReq.setForeground(Color.black);
 		//Caractéristiques de la fenetre en elle même
 		this.setTitle("VLV Manager");
 		this.setSize(600, 600);
@@ -102,6 +107,7 @@ public class Interface extends JFrame implements ActionListener, Runnable{
 		this.container.add(getInfoLab);
 		this.container.add(getInfoText);
 		this.container.add(validateButton);
+		this.container.add(infoReq);
 		//Placement des differents composants
 		this.stagCentButton.setBounds(50, 100, 400, 30);
 		this.stagActButton.setBounds(50, 150, 400, 30);
@@ -119,7 +125,8 @@ public class Interface extends JFrame implements ActionListener, Runnable{
 		this.requestLab.setBounds(50, 160, 1200, 500);
 		this.getInfoLab.setBounds(300, 50, 400, 50);
 		this.getInfoText.setBounds(300, 100, 400, 50);
-		this.validateButton.setBounds(300, 500, 400, 50);
+		this.validateButton.setBounds(300, 700, 400, 50);
+		this.infoReq.setBounds(50,110,1200,50);
 		this.requestLab.setVisible(false);
 		this.getInfoLab.setVisible(false);
 		this.getInfoText.setVisible(false);
@@ -231,6 +238,8 @@ public class Interface extends JFrame implements ActionListener, Runnable{
 		this.getInfoLab.setVisible(false);
 		this.getInfoText.setVisible(false);
 		this.validateButton.setVisible(false);
+		this.requestLab.setText("");
+		this.infoReq.setText("");
 	}
 	
 	public void hideMenu(){
@@ -248,9 +257,6 @@ public class Interface extends JFrame implements ActionListener, Runnable{
 		this.close.setVisible(false);
 		this.mainLab.setVisible(false);
 		this.requestLab.setVisible(true);
-		//this.getInfoLab.setVisible(true);
-		//this.getInfoText.setVisible(true);
-		//this.validateButton.setVisible(true);
 	}
 	public void run() {
 		try {
@@ -275,6 +281,7 @@ public class Interface extends JFrame implements ActionListener, Runnable{
 			}
 			if(request==7){ // Gestion du materiel : inventaire
 				GestionMateriel.inventaire(Main.cnct);
+				this.validateButton.setVisible(true);
 			}
 	
 			if(request==8){ // Gestion du materiel : ajout
@@ -317,13 +324,13 @@ public class Interface extends JFrame implements ActionListener, Runnable{
 	
 	public Integer setVarInfoInt(){
 		//i = Integer.valueOf(this.getInfoText.getText());
-		return Integer.valueOf(JOptionPane.showInputDialog(this, getInfoLab.getText(), "", JOptionPane.PLAIN_MESSAGE));
+		return Integer.valueOf(JOptionPane.showInputDialog(this, getInfoLab.getText(), titleString, JOptionPane.PLAIN_MESSAGE));
 		
 	}
 	
 	public String setVarInfoStr(){
 		//s = this.getInfoText.getText();
-		return JOptionPane.showInputDialog(this, getInfoLab.getText(), "", JOptionPane.QUESTION_MESSAGE);
+		return JOptionPane.showInputDialog(this, getInfoLab.getText(), titleString, JOptionPane.QUESTION_MESSAGE);
 	}
 	
 	public Integer yesNoQuestion(){
@@ -332,5 +339,13 @@ public class Interface extends JFrame implements ActionListener, Runnable{
 	
 	public JTextField getText(){
 		return getInfoText;
+	}
+	
+	public void setTitle(String s){
+		this.titleString = s;
+	}
+	
+	public void setInfReq(String s){
+		this.infoReq.setText(s);
 	}
 }
