@@ -339,7 +339,7 @@ public class RegisterQuery {
 					rset = stmt.executeQuery();
 					if(!rset.next()){
 						sc.close();
-						throw new SQLException("Le stagiaire n'est pas inscrit dans le centre du groupe");
+						throw new SQLException("Le stagiaire n'est pas inscrit dans le centre du groupe durant la période du groupe");
 					}
 				}
 				
