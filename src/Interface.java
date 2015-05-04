@@ -248,8 +248,8 @@ public class Interface extends JFrame implements ActionListener, Runnable{
 		this.close.setVisible(false);
 		this.mainLab.setVisible(false);
 		this.requestLab.setVisible(true);
-		this.getInfoLab.setVisible(true);
-		this.getInfoText.setVisible(true);
+		//this.getInfoLab.setVisible(true);
+		//this.getInfoText.setVisible(true);
 		//this.validateButton.setVisible(true);
 	}
 	public void run() {
@@ -271,6 +271,7 @@ public class Interface extends JFrame implements ActionListener, Runnable{
 			}
 			if(request==6){ // Visualisation des seances planifiees
 				VisualSeance.visual(Main.cnct);
+				this.validateButton.setVisible(true);
 			}
 			if(request==7){ // Gestion du materiel : inventaire
 				GestionMateriel.inventaire(Main.cnct);
