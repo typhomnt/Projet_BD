@@ -199,6 +199,7 @@ public class Interface extends JFrame implements ActionListener, Runnable{
 			hideMenu();
 		}
 		if (arg0.getSource() == this.validateButton){
+			mainMenu();
 		}
 		if (arg0.getSource() == this.close){
 			try {
@@ -249,7 +250,7 @@ public class Interface extends JFrame implements ActionListener, Runnable{
 		this.requestLab.setVisible(true);
 		this.getInfoLab.setVisible(true);
 		this.getInfoText.setVisible(true);
-		this.validateButton.setVisible(true);
+		//this.validateButton.setVisible(true);
 	}
 	public void run() {
 		try {
@@ -279,13 +280,15 @@ public class Interface extends JFrame implements ActionListener, Runnable{
 				GestionMateriel.ajout(Main.cnct);
 			}
 			if(request==9){ // Gestion du materiel : suppression
-				// TODO
+				GestionMateriel.suppression(Main.cnct);
 			}
 			if(request==10){ // Pour chaque activite, classement des centres
 				ClassementCentres.classement(Main.cnct);
+				this.validateButton.setVisible(true);
 			}
 			if(request==11){ // Classement des villes
 				ClassementVilles.classement(Main.cnct);
+				this.validateButton.setVisible(true);
 			}
 			} catch (SQLException e) {
 				e.printStackTrace();
