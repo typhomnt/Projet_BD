@@ -303,10 +303,10 @@ public class RegisterQuery {
 				stmt.setInt(1, codeGroupe);
 				stmt.setInt(2, codeA);
 				rset.close();
+				rset = stmt.executeQuery();
 				ResultSetMetaData rdata = rset.getMetaData();
 				int nbCol = rdata.getColumnCount();
 				int nbMaxGroupe;
-				rset = stmt.executeQuery();
 				if(!rset.next()){
 					sc.close();
 					throw new SQLException("Le groupe ne pratique pas l'activité désirée");
