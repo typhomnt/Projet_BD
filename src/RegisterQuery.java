@@ -303,6 +303,8 @@ public class RegisterQuery {
 				stmt.setInt(1, codeGroupe);
 				stmt.setInt(2, codeA);
 				rset.close();
+				ResultSetMetaData rdata = rset.getMetaData();
+				int i = rdata.getColumnCount();
 				rset = stmt.executeQuery();
 				if(!rset.next()){
 					sc.close();
