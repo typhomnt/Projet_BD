@@ -20,6 +20,7 @@ public class GestionGroupe {
 		try {
 			
 			System.out.println("Creation d'un groupe");
+			AffichageTable.affichageGroupe(c);
 			stmt = c.prepareStatement("INSERT INTO Groupe VALUES (?,?,?,to_date(?,'yyyy-mm-dd'),to_date(?,'yyyy-mm-dd'),?,?,?)");
 			//System.out.println("Entrez le numero du groupe");
 			Main.graphique.setInfoLab("Entrez le numero du groupe");
@@ -104,6 +105,7 @@ public class GestionGroupe {
 		try{
 			System.out.println("Suppression d'un groupe");
 			//System.out.println("Entrez le numero du groupe à supprimer");
+			AffichageTable.affichageGroupe(c);
 			Main.graphique.setInfoLab("Entrez le numero du groupe à supprimer");
 			//codeGroupe = sc.nextInt();
 			codeGroupe = Main.graphique.setVarInfoInt();
