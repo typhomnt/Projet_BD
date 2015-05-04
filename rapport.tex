@@ -134,6 +134,8 @@ ci-dessous.
 \caption{Modèle Entités/Associations}
 \end{figure}
 
+Nous avons fait plusieurs choix de conception lors de la création de ce diagramme notamment la création de l'entité 'Personne' qui nous permet d'éviter les redondances d'attribut dans 'Stagiaire', 'Responsable' et 'Moniteur'. L'entité 'Personnel' est présente pour garantir qu'une personne ne peut être personnel et stagiaire à la fois mais elle peut être responsable et moniteur en même temps.
+Toujours par soucis de redondance nous avons ajouté l'entité 'TypeMateriel' qui est utilisée par 'Matériel' et 'Activité' (pour Activité la cardinalité 0..* nous a aussi poussé à faire ce choix). 
 \section{Passage au schéma relationnel}
 
 Afin de passer du modèle entités/associations au schéma relationnel, on a appliqué linéairement les consignes de la feuille du cours,
@@ -212,11 +214,13 @@ CodeAdr,VilleAdr)}
     
     \hspace{1cm}Gere(CodePersonne,Groupe(CodeGroupe).CodeAct).NbMaxStagMoniteur >= nb de personnes dans le groupe\\
 
-\textbf{EstInscritDansCentre (\underline{CodePersonne}, \underline{CodeCentre})}
+\textbf{EstInscritDansCentre (\underline{CodePersonne}, \underline{CodeCentre}, \underline{DateDebStage},\underline{DateFinStage} )}
     
     \hspace{1cm}CodePersonne référence Stagiaire
     
-    \hspace{1cm}Vérifier qu’un Stagiaire est inscrit dans au moins un Centre\\
+    \hspace{1cm}Vérifier qu’un Stagiaire est inscrit dans au moins un Centre
+    
+    \hspace{1cm}Vérifier que DateDebStage < DateFinStage \\
     
 \end{small}
 
@@ -268,8 +272,50 @@ CodeAdr,VilleAdr)}
 
 \subsection{Enregistrement d'un stagiaire à un centre et à une activité}
 
+Nous avons divisé le travail en deux requêtes ici. L'une pour rajouter un stagiaire à un centre et une autre pour le rajouter à une activité.
+
+Lors de la première on demande un numéro de stagiaire si celui-ci s'avère être celui d'un 'Personnel' on lève une exception car un stagiaire ne peut être ni moniteur ni repsonsable. Si on rentre un numéro inexistant dans 'Personne' on ajoute un nouveau stagiaire à la base.
+
+Ensuite on demande un numéro de centre, celui-ci doit être valide auquel cas une exception sera levée ; puis on demande une date de début et de fin de stage puuis on vérifie si le stagiaire n'est pas inscrit dans un autre centre lors de cette période.
+
+Nous avons donc le code SQL suivant :
+
+ \begin{small}
+\begin{verbatim}
+-- Pour vérifier qu'il sagit bien d'un stagiaire ou d'un code inexistant
+SELECT s.CodePersonne FROM Stagiaire s WHERE s.CodePersonne = codeStagiaire
+
+-- Pour ajouter le stagiaire à la base
+INSERT INTO Personne VALUES (codePersonne,nom,prenom,dateNaissance,telephone,mail,numrue,rue,codePostal,ville)
+
+-- Pour vérifier que le stagiaire n'est pas inscrit dans un autre centre à cette période
+SELECT e.* FROM EstInscritDansCentre e WHERE e.CodePersonne = codeStagiaire AND ((e.Datedeb < dateDeb AND e.Datefin > dateDeb OR (e.Datedeb < DateFin AND e.Datefin > DateFin OR (e.Datedeb > DateDeb AND e.Datefin < DateFin))
+ 
+\end{verbatim}
+\end{small}
+
+Concernant l'ajout d'un stagiaire à une activité nous procédons de la manière suivante :
+
+On demande un numéro de stagiaire. Comme précédement on vérifie qu'il ne fait pas partie du personnel. Si le code est inexistant on propose la création du stagiaire et on fait appel à la première requête. Nous demandons ensuite un code d'activité et s'il est inexistant on propose de créer une activité (dans ce cas la il faudra passer par la requête de création de groupe pour continuer). 
+On demande alors de rentrer un numéro de groupe pratiquant l'activité désirée puis on vérifie que le stagiaire est bien inscrit dans le centre du groupe dans la période d'existance du groupe sinon une exception sera levée.
+
+On a donc : 
+
+ \begin{small}
+\begin{verbatim}
+--Pour récupérer le centre et les dates d'inscrptions du groupe de l'activité souhaitée
+SELECT g.codeCentre,g.codeGroupe,g.DateDebutGroupe,g.DateFinGroupe FROM Groupe g WHERE g.CodeGroupe = codeGroupe AND g.CodeAct = codeAct
+
+ --Pour faire la vérification des concordances de périodes d'inscriptions dont on a parlé précédement
+ SELECT c.* FROM EstInscritDansCentre c WHERE c.codeCentre = codeCentre AND c.codePersonne = codePersonne AND c.Datedeb <= Datedeb AND c.Datefin >= datefin
+\end{verbatim}
+\end{small}
+
 \subsection{Création et suppression d'un groupe}
 
+Ici le travail fut assez simple puisque pour créer un groupe on demande les informations nécessaires à l'utilisateur et on vérifie que la date de début de groupe et plus petit que la date de fin de groupe et que le nombre maximal de stagiaires du groupe est plus grand que le nombre minimal. 
+
+Concernant la suppression on supprime d'abord tous les tuples fils du groupe à savoir : EstEncadreePar,Seance,utilise,EstDansGroupe. Puis on supprime le groupe que l'utilisateur a sélectionné.
 \subsection{Planification d'une séance pour un groupe}
 
 
