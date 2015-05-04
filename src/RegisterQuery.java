@@ -299,12 +299,13 @@ public class RegisterQuery {
 				//codeGroupe = sc.nextInt();
 				Main.graphique.setInfoLab("Entrez le numero du groupe auquel vous voulez inscrire le stagiaire :");
 				codeGroupe = Main.graphique.setVarInfoInt();
-				stmt = c.prepareStatement("SELECT g.codeCentre,g.codeGroupe,g.DateDebutGroupe,g.DateFinGroupe FROM Groupe g WHERE g.CodeGroupe = ? AND g.CodeAct = ?");
+				stmt = c.prepareStatement("SELECT g.codeCentre,g.codeGroupe,g.DateDebutGroupe,g.DateFinGroupe,g.NbMaxStagGroupe FROM Groupe g WHERE g.CodeGroupe = ? AND g.CodeAct = ?");
 				stmt.setInt(1, codeGroupe);
 				stmt.setInt(2, codeA);
 				rset.close();
 				ResultSetMetaData rdata = rset.getMetaData();
-				int i = rdata.getColumnCount();
+				int nbCol = rdata.getColumnCount();
+				int nbMaxGroupe;
 				rset = stmt.executeQuery();
 				if(!rset.next()){
 					sc.close();
@@ -314,6 +315,20 @@ public class RegisterQuery {
 					codeCentre = rset.getInt("codeCentre");
 					dateDeb = rset.getDate("DateDebutGroupe");
 					dateFin = rset.getDate("DateFinGroupe");
+					nbMaxGroupe = rset.getInt("NbMaxStagGroupe");
+					//on récupère le nombre de stagiaire dans le groupe
+					int nbGroupe = 0;
+					while (rset.next()) {
+						for (int j = 1; j <= nbCol; j++) {
+							rset.getObject(j);
+						}
+						nbGroupe++;
+					}
+					//On vérifie que le groupe n'est pas plein
+					if(nbGroupe == nbMaxGroupe){
+						sc.close();
+						throw new SQLException("Le groupe est plein");
+					}
 					//On verifie que le groupe fait bien parti du centre ou le stagiaire est inscrit et que les périodes d'inscription correspondent
 					stmt = c.prepareStatement("SELECT c.* FROM EstInscritDansCentre c WHERE c.codeCentre = ? AND c.codePersonne = ? AND c.Datedeb <= ? AND c.Datefin >= ?");
 					stmt.setInt(1, codeCentre);
